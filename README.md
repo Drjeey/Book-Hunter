@@ -16,4 +16,6 @@ The Node.js backend has one local health endpoint at `GET /api/v1/health`. No da
 
 See [docs/architecture.md](docs/architecture.md) for how a request moves through the system.
 
+The first frontend design brief is in [docs/designs/app-shell-stitch-prompt.md](docs/designs/app-shell-stitch-prompt.md). Review its screen in Google Stitch before we implement the React shell.
+
 To run the backend locally, open a terminal in `backend/` and run `npm start`, then visit `http://127.0.0.1:8000/api/v1/health`.
