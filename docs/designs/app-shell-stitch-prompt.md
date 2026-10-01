@@ -19,7 +19,7 @@
 
 **Responsive behavior:** Design mobile first for a phone held in portrait. Keep the search action reachable, respect safe areas, and prevent horizontal scrolling. At tablet/desktop widths, constrain the reading measure and use extra space for a calm sidebar or wider content grid rather than stretching text edge-to-edge.
 
-**Visual hierarchy:** Brand → page title and one-sentence purpose → search → first-use guidance → navigation. Create a warm, bookish, contemporary feel without looking like an online retailer checkout. Use a restrained, cohesive palette, readable typography, consistent spacing, and one icon family. Establish reusable color, type, spacing, border, and focus tokens for later Book Hunt screens.
+**Visual hierarchy:** Brand → page title and one-sentence purpose → search → first-use guidance → navigation. Create a warm, bookish, contemporary feel without looking like an online retailer checkout. Pink is the signature theme color: use a tasteful range of pinks for brand accents, selected navigation, and primary actions, balanced with warm cream or soft neutral surfaces and deep ink-colored text. Avoid making every surface pink or using pale pink for small text. Keep readable typography, consistent spacing, and one icon family. Establish reusable color, type, spacing, border, and focus tokens for later Book Hunt screens.
 
 **Accessibility:** Semantic heading order; visible field label (not placeholder-only); keyboard-operable controls with visible focus; accessible names for icon buttons; minimum 44 × 44 px touch areas; text contrast of at least 4.5:1 for normal text; do not use color alone to show selected or error states; reduced-motion friendly feedback.
 
@@ -29,7 +29,7 @@
 
 Design the first responsive web app shell for **Book Hunt**, a private single-user bookstore assistant that helps its owner discover and organize books they may love. This is the first-use Discover screen only. Do not design authentication, checkout, bookstore inventory, camera scanning, recommendation logic, or a completed library feature.
 
-Create a polished, warm, bookish but contemporary interface. It should feel like a thoughtful personal reading companion, not a commercial bookstore. Use mobile-first composition, then show how the same design expands to desktop. Establish a reusable design system with semantic color tokens, readable typography, a consistent spacing rhythm, clear surface hierarchy, and one coherent icon style. Do not use emoji as icons.
+Create a polished, warm, bookish but contemporary interface. It should feel like a thoughtful personal reading companion, not a commercial bookstore. **Use a pink theme as Book Hunt's signature visual identity:** use confident, tasteful pink accents for the brand, primary action, and selected navigation; pair them with warm cream or soft neutral backgrounds and dark ink-colored text. Use lighter pinks as subtle surface tints only, and keep all text comfortably readable with WCAG AA contrast. Avoid an all-pink screen, low-contrast blush text, or a childish/candy-like look. Use mobile-first composition, then show how the same design expands to desktop. Establish a reusable design system with semantic color tokens, readable typography, a consistent spacing rhythm, clear surface hierarchy, and one coherent icon style. Do not use emoji as icons.
 
 ### Screen content
 
