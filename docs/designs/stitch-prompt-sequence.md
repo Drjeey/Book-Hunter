@@ -32,8 +32,27 @@ Design mobile first for a phone in portrait, then show the desktop adaptation. K
 
 ## Later prompts
 
-We will write a separate, similarly scoped prompt when each new feature is ready for design. For example, Book Search, Personal Library, Ratings and Notes, and Scanner Upload will each have their own UX brief and Stitch prompt. Reuse Part 1's design system for every later feature instead of restating the entire product description.
+We will write a separate, similarly scoped prompt when each new feature is ready for design. Book Search, Personal Library, Ratings and Notes, and Scanner Upload will each have their own UX brief and Stitch prompt. Reuse Part 1's design system for every later feature instead of restating the entire product description.
+
+## Part 3 — Design the reader profile
+
+After the app shell is in place, submit this prompt on its own in the same Stitch project:
+
+```text
+Using the Book Hunt design system already established in this project, design the next responsive web app screen: Reader Profile. Book Hunt is a private, single-user reading companion, so this screen represents the app's one owner. This is a profile/details step only; do not add sign-in, registration, account switching, social features, billing, or multi-user administration.
+
+Keep the screen deliberately small and useful. Include:
+- The shared Book Hunt navigation, with Profile selected. On mobile use the established labeled bottom navigation; on desktop use the established desktop navigation.
+- A page title and one brief sentence explaining that these details personalize the reader's own space.
+- A simple profile form with a required display name and an optional profile image/avatar chooser. Use a neutral initial-based avatar preview if no image is selected; do not invent a person's photo or personal information.
+- Clear Save changes and Cancel actions. Show Save disabled until something changes, and include a concise saved confirmation state plus inline validation for a missing display name.
+- A small privacy note that this is the owner's private profile. Do not imply cloud sync, authentication, encryption, or data retention behavior that has not been specified.
+
+Use realistic labels and neutral placeholder guidance, not prefilled personal data. Do not include favorite genres, reading goals, ratings, books, recommendations, or taste questions; those belong to later features. Do not invent settings such as currency or location.
+
+Design mobile first for a phone in portrait, then show the desktop adaptation. Keep the form comfortable to use, respect safe areas, prevent horizontal scrolling, and use clear semantic headings, associated labels, visible keyboard focus, accessible avatar control naming, and at least 44 × 44 px touch targets. Keep error and success states understandable without color alone, and respect reduced-motion preferences. Return component boundaries and the spacing/type/color details needed for a React implementation.
+```
 
 ## Review gate
 
-After Stitch generates Part 2, review the mobile and desktop layouts and the four states. Share the generated design or screenshots here. We will inspect its component structure and agree on any adjustments before implementing the React shell.
+After Stitch generates each part, review its responsive layout, states, and consistency with the shared design system. Share the generated design or screenshots here. We will inspect the component structure and agree on any adjustments before implementing that feature.

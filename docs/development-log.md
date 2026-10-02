@@ -12,3 +12,10 @@
 - **Verification:** `npm run build` passed TypeScript checking and production bundling; Vite PWA generated the manifest and service worker with 6 precached assets. npm reported 0 vulnerabilities.
 - **Browser review:** Opened the local preview at 681px wide. Confirmed the mobile navigation is visible at full viewport width and the document has no horizontal overflow. A stylesheet rename briefly interrupted hot reload; a page reload restored the screen, and the production build passes. Responsive desktop rules are in place; this preview surface is currently mobile-sized.
 - **Next:** Continue with the user-profile increment, preparing a separate Stitch prompt before designing that screen.
+
+## Increment 1 — reader profile design brief
+
+- **Prepared:** A feature-sized Google Stitch prompt for the Reader Profile screen, reusing the shared pink Book Hunt design system.
+- **Scope:** A single private owner profile with display name and optional avatar. The prompt excludes authentication, multiple accounts, taste questions, and unspecified settings.
+- **Teaching point:** Separate a feature's UX/data scope from implementation; get a reviewable screen design before coding its form and persistence.
+- **Next:** Generate the profile screen in the existing Stitch project, then share the design here for review before implementation.
