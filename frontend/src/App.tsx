@@ -1,4 +1,4 @@
-import './App.css'
+import './BookHunt.css'
 
 function BookHuntMark() {
   return (
@@ -60,7 +60,11 @@ function PrimaryNavigation({ mobile = false }: { mobile?: boolean }) {
       <span className="navigation-link navigation-link-disabled" aria-disabled="true">
         <LibraryIcon />
         <span>My Library</span>
-        {!mobile && <span className="coming-soon">Coming soon</span>}
+        {mobile ? (
+          <span className="visually-hidden">Coming soon</span>
+        ) : (
+          <span className="coming-soon">Coming soon</span>
+        )}
       </span>
     </nav>
   )
@@ -105,7 +109,7 @@ function EmptyState() {
           <rect x="5" y="10" width="14" height="10" rx="2" />
           <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v2" />
         </svg>
-        <span>No public profile. No automated recommendation feed.</span>
+        <span>One private library. No public profile.</span>
       </div>
     </section>
   )
