@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react'
 import './BookHunt.css'
+import ProfilePage from './ProfilePage'
 
 function BookHuntMark() {
   return (
@@ -50,10 +52,19 @@ function Brand() {
   )
 }
 
-function PrimaryNavigation({ mobile = false }: { mobile?: boolean }) {
+function ProfileIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="8" r="3.5" />
+      <path d="M4.8 20c.7-3.5 3.2-5.5 7.2-5.5s6.5 2 7.2 5.5" />
+    </svg>
+  )
+}
+
+function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; activePage: 'discover' | 'profile' }) {
   return (
     <nav aria-label="Primary navigation" className={mobile ? 'mobile-navigation' : 'desktop-navigation'}>
-      <a className="navigation-link navigation-link-active" href="#discover" aria-current="page">
+      <a className={`navigation-link ${activePage === 'discover' ? 'navigation-link-active' : ''}`} href="#discover" aria-current={activePage === 'discover' ? 'page' : undefined}>
         <DiscoverIcon />
         <span>Discover</span>
       </a>
@@ -66,6 +77,10 @@ function PrimaryNavigation({ mobile = false }: { mobile?: boolean }) {
           <span className="coming-soon">Coming soon</span>
         )}
       </span>
+      <a className={`navigation-link ${activePage === 'profile' ? 'navigation-link-active' : ''}`} href="#profile" aria-current={activePage === 'profile' ? 'page' : undefined}>
+        <ProfileIcon />
+        <span>Profile</span>
+      </a>
     </nav>
   )
 }
@@ -116,16 +131,26 @@ function EmptyState() {
 }
 
 function App() {
+  const [activePage, setActivePage] = useState<'discover' | 'profile'>(() =>
+    window.location.hash === '#profile' ? 'profile' : 'discover',
+  )
+
+  useEffect(() => {
+    const syncPage = () => setActivePage(window.location.hash === '#profile' ? 'profile' : 'discover')
+    window.addEventListener('hashchange', syncPage)
+    return () => window.removeEventListener('hashchange', syncPage)
+  }, [])
+
   return (
     <div className="app-shell min-h-screen bg-paper text-ink">
       <header className="site-header">
         <div className="header-content">
           <Brand />
-          <PrimaryNavigation />
+          <PrimaryNavigation activePage={activePage} />
         </div>
       </header>
 
-      <main id="discover" className="main-content">
+      {activePage === 'profile' ? <ProfilePage /> : <main id="discover" className="main-content">
         <div className="page-intro">
           <p className="eyebrow">
             <DiscoverIcon />
@@ -140,7 +165,7 @@ function App() {
 
         <SearchPanel />
         <EmptyState />
-      </main>
+      </main>}
 
       <footer className="site-footer">
         <div className="footer-content">
@@ -152,7 +177,7 @@ function App() {
         </div>
       </footer>
 
-      <PrimaryNavigation mobile />
+      <PrimaryNavigation mobile activePage={activePage} />
     </div>
   )
 }

@@ -20,3 +20,11 @@
 ## Review outcome
 
 The desktop composition matches the design brief and provides clear component boundaries (`Brand`, `PrimaryNavigation`, `SearchPanel`, and `EmptyState`). Implementation proceeds with the first-use shell only; book search will be implemented as a later feature.
+
+## Reader Profile
+
+- **Accepted:** A focused profile form with a required display name, optional avatar, disabled save until edits exist, cancel, inline validation, and a save confirmation. Added Profile to desktop and mobile navigation.
+- **Adapted for the current app:** Reused the existing Book Hunt brand mark and responsive shell rather than the export's remote logo and second, simulated phone canvas. The reviewer state switcher and architecture showcase are Stitch presentation aids and are not part of the product UI.
+- **Removed unsupported details:** The export contained prefilled example names and portrait imagery, and made claims about telemetry and other features the app does not have. The implemented profile starts empty and explains only the storage behavior we provide.
+- **Storage decision:** Store one owner's profile in browser IndexedDB on the current device. This supports an optional image without placing image data in localStorage. The name and image are not uploaded to the Node API.
+- **Validation:** Production build passed TypeScript and Vite bundling. Browser preview showed Profile in the shared navigation; submitting a whitespace-only name announced the required-name error, and Cancel returned the form to its pristine state.

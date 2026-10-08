@@ -18,4 +18,13 @@
 - **Prepared:** A feature-sized Google Stitch prompt for the Reader Profile screen, reusing the shared pink Book Hunt design system.
 - **Scope:** A single private owner profile with display name and optional avatar. The prompt excludes authentication, multiple accounts, taste questions, and unspecified settings.
 - **Teaching point:** Separate a feature's UX/data scope from implementation; get a reviewable screen design before coding its form and persistence.
-- **Next:** Generate the profile screen in the existing Stitch project, then share the design here for review before implementation.
+- **Result:** The user supplied the generated profile design in the updated Stitch archive; it is reviewed in Increment 2 below.
+
+## Increment 2 — reader profile
+
+- **Reviewed:** The supplied Stitch export provides a desktop form, a mobile concept, validation and saved-state ideas, plus reviewer-only mockups. Kept the form and responsive navigation; omitted the duplicated phone preview, reviewer controls, sample personal data, and promises not backed by the app.
+- **Built:** Added a Profile route to desktop and mobile navigation, a required display name, optional PNG/JPG avatar (up to 2 MB), dirty-state-aware Save and Cancel actions, inline validation, and success/error feedback.
+- **Storage:** One profile is stored in IndexedDB in the current browser on this device. Avatar image bytes are kept as a Blob; no profile data is sent to the backend.
+- **Teaching point:** IndexedDB stores structured browser data and image blobs; the UI owns draft state while the storage module persists only after Save.
+- **Verification:** `npm run build` passed TypeScript and Vite production bundling. The local browser preview showed the profile screen and navigation; whitespace-only input produced the required-name validation message, and Cancel restored the pristine form.
+- **Next:** Plan the book database schema as the next roadmap increment before connecting search or library features.
