@@ -111,6 +111,8 @@ If either write fails, the transaction rolls both back. This prevents an incompl
 
 ## Migration plan
 
-The next database implementation step will create one numbered SQL migration for `users`, `books`, and `user_books`, add their primary keys, foreign keys, uniqueness rules, and checks, and insert one owner row. The migration runner will record each applied version in a `schema_migrations` table. Later features will add their own migrations rather than rebuilding the whole schema at once.
+The first numbered SQL migration is `database/migrations/001_initial_catalog_library.sql`. It creates `users`, `books`, and `user_books`, adds their primary keys, foreign keys, uniqueness rules, indexes, and checks, and inserts one owner row. The Node.js migration runner creates a `schema_migrations` table to record applied versions and runs each file inside a transaction. A PostgreSQL advisory lock keeps two migration processes from applying the same version at once. Later features will add their own migrations rather than rebuilding the whole schema at once.
 
-We will verify the migration against a local PostgreSQL database, inspect the constraints, and exercise rollback/transaction behavior before connecting the Node API.
+The runner reads `DATABASE_URL` from the environment or `backend/.env`. Copy `backend/.env.example` to `backend/.env`, set the connection string for a local database, then run `npm run migrate` from `backend/`. The `.env` file is ignored by Git so local connection details are not committed.
+
+**Verification status:** Node syntax checks pass. The migration has not yet been applied to PostgreSQL because this environment has no `psql` installation or running Docker engine, and no `DATABASE_URL` is configured. Inspect the created constraints and test reruns/rollback behavior when a local database is available; do not connect the API to the schema until that verification is complete.

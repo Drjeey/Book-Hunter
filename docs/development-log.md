@@ -35,4 +35,11 @@
 - **Designed:** A first PostgreSQL model with `users`, `books`, and `user_books`. Catalog metadata is stored once; the join table stores the reader's relationship and shelf status. One owner row supports the single-user app without adding authentication fields.
 - **Scope:** Ratings, notes, taste preferences, author entities, scanner data, and bookstore visits are deferred until their features need them. The browser-only Reader Profile remains in IndexedDB and is not synchronized to PostgreSQL.
 - **Verification:** Reviewed the schema plan against the existing PostgreSQL architecture decision and the single-user scope. No tables were created in this design increment.
-- **Next:** Implement and verify the first small PostgreSQL migration for the three planned tables.
+- **Result:** The first migration and runner are implemented in Increment 4 below.
+
+## Increment 4 — initial PostgreSQL migration
+
+- **Built:** Added `001_initial_catalog_library.sql` for `users`, `books`, and `user_books`, including primary/foreign keys, uniqueness and check constraints, ISBN and library-query indexes, and one seeded owner row. Added a Node.js runner that records migration versions and applies each migration transactionally under a PostgreSQL advisory lock.
+- **Dependencies/configuration:** Added the `pg` Node.js driver and an ignored local `.env` workflow, with `backend/.env.example` as a template.
+- **Verification:** `npm run check` passed for the backend files. `npm run migrate` correctly reported that `DATABASE_URL` is missing. Live migration verification is pending because no local PostgreSQL client/server or running Docker engine is available in this environment.
+- **Next:** Configure a local PostgreSQL database, apply the migration, and verify the table constraints and safe rerun behavior before wiring database queries into the API.
