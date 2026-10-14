@@ -4,7 +4,7 @@ Book Hunt is a private, single-user bookstore assistant. We are building it in s
 
 ## Current increment
 
-The Node.js backend has a local health endpoint at `GET /api/v1/health`. The React frontend now has the first responsive Discover shell based on the reviewed Stitch export. Search and database features are not connected yet.
+The Node.js backend has a local health endpoint at `GET /api/v1/health`. The React frontend has a responsive Discover shell and a private Reader Profile. The profile is stored in browser IndexedDB on this device. Search and PostgreSQL are not connected yet; the first database schema is planned in [docs/database-design.md](docs/database-design.md).
 
 ## Planned structure
 

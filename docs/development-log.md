@@ -28,3 +28,11 @@
 - **Teaching point:** IndexedDB stores structured browser data and image blobs; the UI owns draft state while the storage module persists only after Save.
 - **Verification:** `npm run build` passed TypeScript and Vite production bundling. The local browser preview showed the profile screen and navigation; whitespace-only input produced the required-name validation message, and Cancel restored the pristine form.
 - **Next:** Plan the book database schema as the next roadmap increment before connecting search or library features.
+
+## Increment 3 — database schema plan
+
+- **Learned and documented:** Tables, rows, columns, primary and foreign keys, one-to-many and many-to-many relationships, normalization, constraints, indexes, transactions, and migrations.
+- **Designed:** A first PostgreSQL model with `users`, `books`, and `user_books`. Catalog metadata is stored once; the join table stores the reader's relationship and shelf status. One owner row supports the single-user app without adding authentication fields.
+- **Scope:** Ratings, notes, taste preferences, author entities, scanner data, and bookstore visits are deferred until their features need them. The browser-only Reader Profile remains in IndexedDB and is not synchronized to PostgreSQL.
+- **Verification:** Reviewed the schema plan against the existing PostgreSQL architecture decision and the single-user scope. No tables were created in this design increment.
+- **Next:** Implement and verify the first small PostgreSQL migration for the three planned tables.
