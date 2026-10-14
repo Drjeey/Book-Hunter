@@ -43,3 +43,10 @@
 - **Dependencies/configuration:** Added the `pg` Node.js driver and an ignored local `.env` workflow, with `backend/.env.example` as a template.
 - **Verification:** `npm run check` passed for the backend files. `npm run migrate` correctly reported that `DATABASE_URL` is missing. Live migration verification is pending because no local PostgreSQL client/server or running Docker engine is available in this environment.
 - **Next:** Configure a local PostgreSQL database, apply the migration, and verify the table constraints and safe rerun behavior before wiring database queries into the API.
+
+## Increment 5 — local database setup attempt
+
+- **Attempted:** Set up PostgreSQL 18.6 from the Windows package entry linked by postgresql.org so the migration could be run locally.
+- **Result:** The client/server binaries are present, but the installer did not produce a running server. Two cluster initialization attempts stalled before completion; no server responded on `127.0.0.1:5432`.
+- **Cleanup:** Removed only the incomplete data directories and generated local connection file created by these attempts. Added `database/.local/` to `.gitignore` for future development database files.
+- **Verification status:** No PostgreSQL migration was applied. The runner and SQL remain committed; the live schema/constraint check must be repeated when a local PostgreSQL server is available outside this stalled environment.
