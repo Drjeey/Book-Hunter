@@ -16,6 +16,8 @@ The Node.js backend has health, book-search, personal-library, and taste-profile
 
 See [docs/architecture.md](docs/architecture.md) for how a request moves through the system.
 
+For the Netlify frontend build and its current backend limitation, see [docs/deploy-netlify.md](docs/deploy-netlify.md).
+
 The first frontend design prompts are in [docs/designs/stitch-prompt-sequence.md](docs/designs/stitch-prompt-sequence.md). Submit them one at a time in Google Stitch; the design review is recorded in [docs/designs/stitch-review.md](docs/designs/stitch-review.md).
 
 To run the backend locally, open a terminal in `backend/` and run `npm.cmd run migrate` once to apply new database changes, then `npm.cmd start` and visit `http://127.0.0.1:8000/api/v1/health`. To run the frontend, open another terminal in `frontend/`, run `npm.cmd install` once, then `npm.cmd run dev`. The `.cmd` form also works in PowerShell installations that block `npm.ps1`.
