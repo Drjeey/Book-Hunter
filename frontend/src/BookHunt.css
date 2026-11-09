@@ -588,6 +588,149 @@ h1 {
   line-height: 1.6;
 }
 
+.taste-profile-section {
+  margin-top: 44px;
+}
+
+.taste-heading {
+  margin-bottom: 20px;
+}
+
+.taste-heading .eyebrow {
+  margin-bottom: 10px;
+  font-size: 11px;
+}
+
+.taste-heading h2 {
+  margin: 0 0 7px;
+  font-family: var(--font-editorial);
+  font-size: clamp(28px, 4vw, 34px);
+  font-weight: 600;
+}
+
+.taste-form,
+.taste-state {
+  border: 1px solid #f3e9e6;
+  border-radius: 16px;
+  padding: clamp(22px, 5vw, 40px);
+  background: var(--color-card);
+  box-shadow: 0 2px 12px rgb(45 37 34 / 4%);
+}
+
+.taste-form-fields,
+.taste-choice-group {
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.taste-form-fields {
+  display: grid;
+  gap: 27px;
+}
+
+.taste-choice-group legend {
+  padding: 0;
+  color: var(--color-ink);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.taste-choice-group .field-help {
+  margin-bottom: 13px;
+}
+
+.taste-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.taste-choice {
+  position: relative;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  border: 1px solid #d8bfc3;
+  border-radius: 999px;
+  padding: 8px 15px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.taste-choice input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.taste-choice:focus-within {
+  outline: 3px solid var(--color-rose-deep);
+  outline-offset: 3px;
+}
+
+.taste-choice-selected {
+  border-color: var(--color-rose-deep);
+  color: #fff;
+  background: var(--color-rose-deep);
+}
+
+.taste-choice:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: .48;
+}
+
+.taste-select-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.taste-select-grid label {
+  display: grid;
+  gap: 8px;
+  color: var(--color-ink);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.taste-select-grid select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid #e7d9d6;
+  border-radius: 9px;
+  padding: 0 12px;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-size: 14px;
+}
+
+.taste-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.taste-storage-note {
+  margin: 16px 0 0;
+  color: var(--color-ink-soft);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.taste-state {
+  color: var(--color-ink-soft);
+  font-size: 14px;
+}
+
+.taste-state-error p { margin: 0 0 16px; }
+
 .book-results-section {
   margin-top: 30px;
 }
@@ -1454,4 +1597,12 @@ h1 {
   .profile-privacy {
     padding: 14px;
   }
+
+  .taste-profile-section { margin-top: 36px; }
+
+  .taste-select-grid { grid-template-columns: minmax(0, 1fr); }
+
+  .taste-actions { flex-direction: column-reverse; }
+
+  .taste-actions .button { width: 100%; }
 }

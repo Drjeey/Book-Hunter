@@ -120,3 +120,7 @@ The runner reads `DATABASE_URL` from the environment or `backend/.env`. Copy `ba
 ## Second migration — ratings and notes
 
 `002_library_reflections.sql` adds an optional `rating` and `personal_note` to `user_books`. Both belong to the owner's relationship with a saved book, not to shared catalog metadata. A database check keeps ratings between 1 and 5 and notes at 2000 characters or fewer. `NULL` means no rating or note. The Node API validates the same rules before updating either field. Removing a book from My Library also removes its rating and note with that library relationship.
+
+## Third migration — reading taste
+
+`003_taste_preferences.sql` creates `taste_preferences` with `user_id` as both primary key and foreign key to `users`. This gives each owner at most one structured taste profile. Genre, theme, and avoid lists are text arrays limited to five selections each. Pace and writing style use checked choices; twist interest and psychological depth are optional values from 1 to 5. The backend validates choices before saving and returns an empty profile when no row exists yet. No recommendation score is calculated in this phase.

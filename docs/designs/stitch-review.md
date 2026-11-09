@@ -49,3 +49,10 @@ The desktop composition matches the design brief and provides clear component bo
 - **Current UI:** A compact editor inside each saved-book card uses the existing warm paper and raspberry styles. It shows a saved rating and a short note preview when collapsed.
 - **Interaction:** One optional 1–5 star rating and one optional note per saved book. Save is disabled until the draft changes; Cancel discards the draft; a failed save leaves the editor open.
 - **Stitch refinement:** Part 5 of the prompt sequence is ready if a separate Stitch design is desired for this interaction. No new Stitch export was supplied for this increment.
+
+## Reading taste
+
+- **Current UI:** A separate section beneath Reader Profile uses the same warm paper surfaces, raspberry selection chips, form controls, and responsive spacing.
+- **Interaction:** The owner chooses up to five genres, themes, and traits to avoid, along with pace, writing style, and optional interest levels. Save is available only after changes; errors preserve the draft.
+- **Storage clarity:** The profile name and avatar stay in browser IndexedDB. Taste choices are saved through the Node API to PostgreSQL for later recommendation scoring.
+- **Stitch refinement:** Part 6 is ready for an optional feature-sized Stitch design. No generated Taste Profile screen was supplied for this increment.

@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { loadReaderProfile, saveReaderProfile, type ReaderProfile } from './profileStorage'
+import TasteProfile from './TasteProfile'
 
 const maxAvatarBytes = 2 * 1024 * 1024
 const allowedAvatarTypes = ['image/png', 'image/jpeg']
@@ -200,10 +201,12 @@ export default function ProfilePage() {
       <aside className="profile-privacy" aria-label="Profile storage information">
         <span className="privacy-lock" aria-hidden="true">♡</span>
         <div>
-          <h2>Private to this device</h2>
-          <p>Your profile is saved in this browser on this device. It is not sent to an account or public profile.</p>
+          <h2>Name and image on this device</h2>
+          <p>Your display name and image are saved in this browser. They are not sent to an account or public profile.</p>
         </div>
       </aside>
+
+      <TasteProfile />
     </main>
   )
 }

@@ -9,6 +9,7 @@ import {
   updateLibraryStatus,
 } from "./books/library.js";
 import { pool } from "./db/pool.js";
+import { getTasteProfile, saveTasteProfile, TASTE_OPTIONS, TasteProfileError } from "./taste/profile.js";
 
 const port = Number(process.env.PORT ?? 8000);
 
@@ -56,6 +57,23 @@ const server = createServer(async (request, response) => {
 
       console.error("Book search failed:", error);
       sendJson(response, 500, { error: "Book search could not be completed." });
+    }
+    return;
+  }
+
+  if (requestUrl.pathname === "/api/v1/taste-profile" && ["GET", "PUT"].includes(request.method)) {
+    try {
+      const profile = request.method === "GET"
+        ? await getTasteProfile()
+        : await saveTasteProfile(await readJsonBody(request));
+      sendJson(response, 200, { profile, options: TASTE_OPTIONS });
+    } catch (error) {
+      if (error instanceof TasteProfileError) {
+        sendJson(response, error.status, { error: error.message });
+        return;
+      }
+      console.error("Taste profile could not be loaded or saved:", error);
+      sendJson(response, 503, { error: "Reading preferences are unavailable. Check the database and try again." });
     }
     return;
   }

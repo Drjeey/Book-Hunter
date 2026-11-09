@@ -39,6 +39,12 @@ The frontend collects input and displays results. The backend validates a reques
 - `PATCH /api/v1/library/:id/reflection` saves or clears the owner's optional 1–5 star rating and private note (up to 2000 characters).
 - `DELETE /api/v1/library/:id` removes the owner's relationship while leaving reusable catalog metadata intact.
 
+## Reading taste requests
+
+- `GET /api/v1/taste-profile` returns the owner's saved preferences or an empty profile, plus the currently supported choices.
+- `PUT /api/v1/taste-profile` validates and saves favorite genres/themes, traits to avoid, pace, writing style, and optional 1–5 interest levels for twists and psychological depth.
+- `taste_preferences` has one row per owner in PostgreSQL. The profile name and avatar remain separate in browser IndexedDB. Future recommendation scoring can read the structured preferences from the backend.
+
 ## Architecture choice
 
 Book Hunt starts as a modular monolith: one frontend, one backend, and one PostgreSQL database. The pieces have separate responsibilities, but we avoid the operational overhead of multiple services for a private single-user app.

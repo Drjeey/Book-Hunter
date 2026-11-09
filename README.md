@@ -4,7 +4,7 @@ Book Hunt is a private, single-user bookstore assistant. We are building it in s
 
 ## Current increment
 
-The Node.js backend has health, book-search, and personal-library endpoints. The React frontend has responsive Discover, My Library, and Reader Profile screens. Search results come from Open Library through the Node API; a user can save a result, update its reading status, add a private rating and note, or remove it from My Library. PostgreSQL stores saved catalog records, library statuses, ratings, and notes. The profile is stored separately in browser IndexedDB on this device.
+The Node.js backend has health, book-search, personal-library, and taste-profile endpoints. The React frontend has responsive Discover, My Library, and Reader Profile screens. Search results come from Open Library through the Node API; a user can save a result, update its reading status, add a private rating and note, or remove it from My Library. Reader Profile also has a Reading taste editor for genres, themes, pace, writing style, and traits to avoid. PostgreSQL stores the library and reading preferences. The display name and avatar remain in browser IndexedDB on this device.
 
 ## Planned structure
 

@@ -82,3 +82,11 @@
 - **API:** `PATCH /api/v1/library/:id/reflection` validates the rating and note, updates only the owner's saved book, and returns their stored values. `GET /api/v1/library` includes them.
 - **UI:** Drafts stay open on save failure. The collapsed card displays the saved rating and note. Ratings and notes are private to the single-user library.
 - **Build check:** Backend syntax check passed. TypeScript and Vite produced a successful build output; the combined command remained open after that output and was stopped. The generated files were checked separately.
+
+## Increment 10 — reading taste profile
+
+- **Built:** Added a Reading taste section below Reader Profile. The owner can select favorite genres and themes, preferred pace and writing style, interest levels for twists and psychological depth, and traits to avoid. Save, Cancel, first-use, retry, and error states are included.
+- **Storage:** `003_taste_preferences.sql` adds one PostgreSQL row per owner. The migration was applied to the local database. Name and avatar still live in browser IndexedDB; the new structured preferences are stored in PostgreSQL for later backend recommendation scoring.
+- **API:** `GET /api/v1/taste-profile` returns the saved or empty profile and supported choices. `PUT /api/v1/taste-profile` validates the choices and saves them.
+- **Verification:** The backend syntax check, TypeScript compilation, and Vite production build passed. A read-only database call successfully loaded the empty first-use profile.
+- **Next:** Build shelf image upload as its own increment, then add OCR and book identification in later increments.

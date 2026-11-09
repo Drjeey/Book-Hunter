@@ -19,3 +19,9 @@
 **Alternative considered:** A separate Python/FastAPI backend alongside Node.js.
 
 **Why not chosen:** There is no current feature that requires a second backend runtime.
+
+## ADR-003 — Store reading taste with the backend
+
+**Decision:** Save the owner's structured reading preferences in PostgreSQL through the Node API. Keep the display name and avatar in browser IndexedDB.
+
+**Reason:** The later recommendation engine will run in the backend and needs access to genres, themes, pace, and traits to avoid. The name and avatar only personalize the current browser screen. A single `taste_preferences` row per owner keeps the first version simple.

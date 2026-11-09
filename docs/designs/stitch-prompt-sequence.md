@@ -81,9 +81,23 @@ The owner may set one optional rating from 1 to 5 stars and write one optional p
 Use no sample personal opinions, invented ratings, social reviews, public sharing, recommendations, reading dates, or cloud-sync claims. Design phone and desktop states, visible keyboard focus, WCAG AA text contrast, accessible names, and at least 44 × 44 px touch targets. Return component boundaries and concise spacing, type, and color details for React implementation.
 ```
 
+## Part 6 — Design reading taste
+
+Use this prompt by itself in the same Stitch project to refine the Reading taste section in Reader Profile. Choose **Web**.
+
+```text
+Using the established warm pink Book Hunt design system, design the Reading taste section of the existing Reader Profile page for a private single-user web app. Keep the current navigation, profile form, and responsive styling coherent. This section collects structured preferences for a future recommendation feature; it does not generate recommendations yet.
+
+Include multi-select controls for favorite genres and themes and traits to avoid (at most five choices in each group). Include choices for preferred pace and writing style, plus optional 1–5 interest levels for plot twists and psychological depth. Show a clear empty first-use state, saved selections, Save disabled until changes exist, Cancel, save confirmation, loading, and a retryable error. Keep the choices understandable without assuming the owner has already rated any books.
+
+Do not invent personal preferences or recommend books. Do not imply that the name and avatar use the same storage as reading preferences: the former remain in this browser, while reading preferences are saved in Book Hunt's local PostgreSQL database. Avoid claims about public sharing, login, cloud sync, or AI inference.
+
+Design phone and desktop states with visible keyboard focus, accessible labels, WCAG AA text contrast, 44 × 44 px touch targets, and restrained use of pink. Return component boundaries and concise spacing, type, and color details for a React implementation.
+```
+
 ## Later prompts
 
-Book Search reuses the supplied Discover states export. Taste Profile and Scanner Upload will each have their own feature-sized UX brief and Stitch prompt when those features are ready. Reuse Part 1's design system for every later feature instead of restating the full product description.
+Book Search reuses the supplied Discover states export. Shelf Image Upload and later scanning features will each have their own feature-sized UX brief and Stitch prompt when ready. Reuse Part 1's design system for every later feature instead of restating the full product description.
 
 ## Review gate
 
