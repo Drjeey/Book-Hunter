@@ -4,7 +4,7 @@
 
 **Decision:** Build one frontend, one backend, and one PostgreSQL database with clear module boundaries.
 
-**Reason:** Book Hunt is a private single-user application. Separate responsibilities help us learn and maintain the system without adding unnecessary deployment and operations work.
+**Reason:** Book Hunter is a private single-user application. Separate responsibilities help us learn and maintain the system without adding unnecessary deployment and operations work.
 
 **Alternative considered:** Multiple independently deployed services.
 

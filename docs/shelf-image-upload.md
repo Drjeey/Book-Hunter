@@ -1,4 +1,4 @@
-# Shelf image upload: first scanner step
+# Book Hunter shelf image upload: first scanner step
 
 The first scanner step stores one photo. It does not try to read book spines yet.
 

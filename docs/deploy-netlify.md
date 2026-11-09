@@ -1,6 +1,6 @@
 # Netlify deployment
 
-Book Hunt's React site lives in `frontend/`. The root `netlify.toml` tells Netlify to build from that directory and publish `frontend/dist`, which contains `index.html` and the production assets. A site pointed at the repository root instead can publish without the app's `index.html` and show Netlify's 404 page.
+Book Hunter's React site lives in `frontend/`. The root `netlify.toml` tells Netlify to build from that directory and publish `frontend/dist`, which contains `index.html` and the production assets. A site pointed at the repository root instead can publish without the app's `index.html` and show Netlify's 404 page.
 
 ## Frontend build settings
 

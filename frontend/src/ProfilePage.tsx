@@ -166,7 +166,7 @@ export default function ProfilePage() {
 
             <div className="profile-name-field">
               <label htmlFor="display-name">Display name <span aria-hidden="true">*</span></label>
-              <p className="field-help" id="display-name-help">This name appears in your Book Hunt space.</p>
+              <p className="field-help" id="display-name-help">This name appears in your Book Hunter space.</p>
               <input
                 id="display-name"
                 name="displayName"

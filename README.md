@@ -1,6 +1,6 @@
-# Book Hunt
+# Book Hunter
 
-Book Hunt is a private, single-user bookstore assistant. We are building it in small, understandable increments.
+Book Hunter is a private, single-user bookstore assistant. We are building it in small, understandable increments.
 
 ## Current increment
 

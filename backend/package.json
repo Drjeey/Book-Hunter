@@ -2,7 +2,7 @@
   "name": "book-hunt-api",
   "version": "0.1.0",
   "private": true,
-  "description": "Node.js HTTP API for Book Hunt",
+  "description": "Node.js HTTP API for Book Hunter",
   "type": "module",
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.js",

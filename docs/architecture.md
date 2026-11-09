@@ -1,4 +1,4 @@
-# Book Hunt architecture
+# Book Hunter architecture
 
 ## Planned technologies
 
@@ -28,7 +28,7 @@ The frontend collects input and displays results. The backend validates a reques
 1. The user enters a title and submits the search form.
 2. React sends a request such as `GET /api/v1/books?query=The%20Hobbit`.
 3. The Node.js API validates the request and searches the Open Library Search API for matching catalog records.
-4. The Node.js API maps provider fields to a small Book Hunt response and returns JSON (or an empty list when there are no matches). It caches search pages briefly and spaces provider requests to respect its low-volume API guidance.
+4. The Node.js API maps provider fields to a small Book Hunter response and returns JSON (or an empty list when there are no matches). It caches search pages briefly and spaces provider requests to respect its low-volume API guidance.
 5. React displays the response, including loading, empty, and error states. The user can explicitly save a selected result through `POST /api/v1/library`; the backend stores catalog metadata and the owner's initial `want_to_read` status together in PostgreSQL.
 
 ## Personal library requests
@@ -51,7 +51,7 @@ The local API accepts a raw JPEG, PNG, or WebP body at `POST /api/v1/shelf-image
 
 ## Architecture choice
 
-Book Hunt starts as a modular monolith: one frontend, one backend, and one PostgreSQL database. The pieces have separate responsibilities, but we avoid the operational overhead of multiple services for a private single-user app.
+Book Hunter starts as a modular monolith: one frontend, one backend, and one PostgreSQL database. The pieces have separate responsibilities, but we avoid the operational overhead of multiple services for a private single-user app.
 
 ## Current scope
 

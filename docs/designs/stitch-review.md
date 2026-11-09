@@ -1,5 +1,7 @@
 # Stitch design review — Book Hunt Discover
 
+The original Stitch export used the working name Book Hunt. The product is now named **Book Hunter**; the implemented UI and future design prompts use the corrected name.
+
 ## Design system
 
 - Accepted the warm paper background, mature raspberry/pink accents, deep ink text, editorial serif headings, and restrained card borders.

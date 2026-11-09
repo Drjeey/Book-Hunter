@@ -187,7 +187,7 @@ export default function TasteProfile() {
             <button className="button button-text" type="button" disabled={!isDirty || saving} onClick={() => { setDraft(saved); setError(''); setMessage('') }}>Cancel</button>
             <button className="button button-primary" type="submit" disabled={!isDirty || saving}>{saving ? 'Saving…' : 'Save preferences'}</button>
           </div>
-          <p className="taste-storage-note">These preferences are saved in Book Hunt's database. This screen does not publish them.</p>
+          <p className="taste-storage-note">These preferences are saved in Book Hunter's database. This screen does not publish them.</p>
         </form>
       )}
     </section>

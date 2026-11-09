@@ -199,7 +199,7 @@ const server = createServer(async (request, response) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
-  console.log(`Book Hunt API listening at http://127.0.0.1:${port}`);
+  console.log(`Book Hunter API listening at http://127.0.0.1:${port}`);
 });
 
 for (const signal of ["SIGINT", "SIGTERM"]) {

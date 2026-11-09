@@ -11,8 +11,8 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'Book Hunt',
-        short_name: 'Book Hunt',
+        name: 'Book Hunter',
+        short_name: 'Book Hunter',
         description: 'Your private reading companion',
         theme_color: '#971643',
         background_color: '#fff8f6',

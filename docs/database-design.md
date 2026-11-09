@@ -1,4 +1,4 @@
-# Book Hunt database design — first version
+# Book Hunter database design — first version
 
 This document plans the first PostgreSQL tables before we write a migration. The first database increment will cover the catalog and one reader's library. Ratings, notes, taste preferences, scans, and store visits come later.
 

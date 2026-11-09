@@ -106,3 +106,9 @@
 - **Copy corrections:** The screen says storage is on the computer running the local backend. It does not promise that a phone holds the image or that Netlify hosts uploads. The busy and error messages use plain language.
 - **Verification:** TypeScript and Vite production build passed. Browser visual inspection of the local preview was unavailable because this environment blocked access to its loopback server; inspect the page in a local browser when running the app.
 - **Next:** Add OCR as a separate increment, after the upload flow is verified with a real shelf photograph on the user's machine.
+
+## Product name correction — Book Hunter
+
+- **Changed:** The visible app name, page title, PWA manifest, user-facing copy, README, and current architecture notes now say Book Hunter.
+- **Preserved:** Existing browser storage, event names, package identifiers, and the supplied Stitch export retain their earlier internal names to avoid disrupting saved local data or rewriting the historical design source.
+- **Verification:** Frontend production bundle and PWA manifest were generated with the Book Hunter name; backend syntax check passed.

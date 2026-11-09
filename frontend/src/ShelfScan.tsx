@@ -98,7 +98,7 @@ export default function ShelfScan() {
       const isJson = response.headers.get('content-type')?.includes('application/json')
       const payload = isJson ? await response.json() as { image?: StoredImage; error?: string } : null
       if (!response.ok || !payload?.image) {
-        throw new Error(payload?.error || 'The upload service is unavailable. Check that the local Book Hunt backend is running, then retry.')
+        throw new Error(payload?.error || 'The upload service is unavailable. Check that the local Book Hunter backend is running, then retry.')
       }
       setStored(payload.image)
       setPhase('success')
@@ -115,8 +115,8 @@ export default function ShelfScan() {
       <div className="page-intro scan-intro">
         <p className="eyebrow">Shelf photographs · Private local storage</p>
         <h1>Shelf Scan</h1>
-        <p className="page-description">Photograph book spines clearly. For now, Book Hunt stores your image for a later identification step.</p>
-        <p className="scan-storage-note">Images are stored on the computer running the local Book Hunt backend. Online uploads are not set up yet.</p>
+        <p className="page-description">Photograph book spines clearly. For now, Book Hunter stores your image for a later identification step.</p>
+        <p className="scan-storage-note">Images are stored on the computer running the local Book Hunter backend. Online uploads are not set up yet.</p>
       </div>
 
       <div className="scan-layout">
@@ -143,7 +143,7 @@ export default function ShelfScan() {
                 <div><dt>Filename</dt><dd>{file.name}</dd></div>
                 <div><dt>File size</dt><dd>{formatSize(file.size)}</dd></div>
               </dl>
-              {uploading && <p className="scan-progress" role="status">Uploading your image… Please keep Book Hunt open.</p>}
+              {uploading && <p className="scan-progress" role="status">Uploading your image… Please keep Book Hunter open.</p>}
               {error && <p className="scan-error" role="alert">{error}</p>}
               <div className="scan-actions">
                 <ImagePicker label="Replace" onSelect={selectFile} disabled={uploading} />

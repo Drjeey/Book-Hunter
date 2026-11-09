@@ -1,11 +1,11 @@
-# Book Hunt — Google Stitch Prompt Sequence
+# Book Hunter — Google Stitch Prompt Sequence
 
 Use these prompts one at a time in the same Stitch project. Start with Part 1 and keep the design system it creates. Then submit Part 2 to create the first screen using that system. Do not paste both prompts together.
 
 ## Part 1 — Set the shared design system
 
 ```text
-Create a reusable visual design system for Book Hunt, a private single-user reading companion that helps its owner discover and organize books.
+Create a reusable visual design system for Book Hunter, a private single-user reading companion that helps its owner discover and organize books.
 
 The signature theme is pink: use confident, tasteful pinks for brand accents and primary actions, balanced by warm cream or soft neutral surfaces and dark ink-colored text. Avoid an all-pink interface, pale pink for small text, and a childish/candy-like look. The feeling should be warm, bookish, calm, and contemporary rather than like a retail checkout.
 
@@ -17,10 +17,10 @@ Define reusable semantic color tokens, typography roles, spacing rhythm, surface
 After Part 1 has created the style guide, paste this as a separate prompt in the same Stitch project:
 
 ```text
-Using the Book Hunt design system already established in this project, design the first responsive app screen: Discover, for a first-time user. Keep the screen focused; do not design authentication, checkout, bookstore inventory, camera scanning, recommendation logic, or a completed library feature.
+Using the Book Hunter design system already established in this project, design the first responsive app screen: Discover, for a first-time user. Keep the screen focused; do not design authentication, checkout, bookstore inventory, camera scanning, recommendation logic, or a completed library feature.
 
 Include:
-- Book Hunt name and a short explanation of the app.
+- Book Hunter name and a short explanation of the app.
 - Primary navigation for Discover (selected) and My Library. Use labeled bottom navigation on mobile and a simple sidebar or top navigation on desktop. Show My Library as a future placeholder, not a fake working control.
 - A clear welcome heading and a labeled search field for book title or author, with helper text and a visible Search button. Show an example query only as placeholder guidance, not as user data.
 - A first-use empty state explaining that no personal books have been added yet, with one obvious next action. Do not invent book covers, ratings, reading history, recommendations, or profile data.
@@ -35,10 +35,10 @@ Design mobile first for a phone in portrait, then show the desktop adaptation. K
 After the app shell is in place, submit this prompt on its own in the same Stitch project:
 
 ```text
-Using the Book Hunt design system already established in this project, design the next responsive web app screen: Reader Profile. Book Hunt is a private, single-user reading companion, so this screen represents the app's one owner. This is a profile/details step only; do not add sign-in, registration, account switching, social features, billing, or multi-user administration.
+Using the Book Hunter design system already established in this project, design the next responsive web app screen: Reader Profile. Book Hunter is a private, single-user reading companion, so this screen represents the app's one owner. This is a profile/details step only; do not add sign-in, registration, account switching, social features, billing, or multi-user administration.
 
 Keep the screen deliberately small and useful. Include:
-- The shared Book Hunt navigation, with Profile selected. On mobile use the established labeled bottom navigation; on desktop use the established desktop navigation.
+- The shared Book Hunter navigation, with Profile selected. On mobile use the established labeled bottom navigation; on desktop use the established desktop navigation.
 - A page title and one brief sentence explaining that these details personalize the reader's own space.
 - A simple profile form with a required display name and an optional profile image/avatar chooser. Use a neutral initial-based avatar preview if no image is selected; do not invent a person's photo or personal information.
 - Clear Save changes and Cancel actions. Show Save disabled until something changes, and include a concise saved confirmation state plus inline validation for a missing display name.
@@ -51,13 +51,13 @@ Design mobile first for a phone in portrait, then show the desktop adaptation. K
 
 ## Part 4 — Design My Library
 
-Submit this prompt by itself in the same Stitch project after Part 3. Choose **Web** in Stitch because Book Hunt is a responsive React web app.
+Submit this prompt by itself in the same Stitch project after Part 3. Choose **Web** in Stitch because Book Hunter is a responsive React web app.
 
 ```text
-Using the Book Hunt design system already established in this project, design the next responsive web app screen: My Library. Book Hunt is a private, single-user reading companion. This screen manages books the owner has chosen to save; it is not a bookstore or a public catalog.
+Using the Book Hunter design system already established in this project, design the next responsive web app screen: My Library. Book Hunter is a private, single-user reading companion. This screen manages books the owner has chosen to save; it is not a bookstore or a public catalog.
 
 Include:
-- The shared Book Hunt navigation, with My Library selected. Use the established labeled bottom navigation on mobile and desktop navigation on wide screens.
+- The shared Book Hunter navigation, with My Library selected. Use the established labeled bottom navigation on mobile and desktop navigation on wide screens.
 - A clear My Library page title and a concise count or summary area that can be omitted when there are no saved books.
 - A compact filter for the four supported reading statuses: Want to read, Reading, Read, and Did not finish. Make the selected filter clear without relying on color alone.
 - A responsive list/grid of saved book cards. Each card may show the book cover when available, title, author, and a clearly labeled status control. Include an overflow or secondary action to remove a book, with a confirmation step before removal.
@@ -74,7 +74,7 @@ Design mobile first for a phone in portrait, then show the desktop adaptation. P
 Use this prompt on its own in the same Stitch project to refine the ratings and notes controls in My Library. Choose **Web**.
 
 ```text
-Using the established Book Hunt design system, design a small Ratings and Notes interaction for one saved book in My Library. This is a private, single-user React web app. Keep the current library card, status control, and mobile/desktop navigation consistent with the existing design.
+Using the established Book Hunter design system, design a small Ratings and Notes interaction for one saved book in My Library. This is a private, single-user React web app. Keep the current library card, status control, and mobile/desktop navigation consistent with the existing design.
 
 The owner may set one optional rating from 1 to 5 stars and write one optional private note of up to 2000 characters per saved book. Both can be edited or cleared later. Show the collapsed card summary, the open editing state, a disabled Save when nothing has changed, Cancel, a successful save state, and a plain-language save error that keeps the draft intact. Label the rating and note controls, show the note length, and make the empty rating choice clear.
 
@@ -86,11 +86,11 @@ Use no sample personal opinions, invented ratings, social reviews, public sharin
 Use this prompt by itself in the same Stitch project to refine the Reading taste section in Reader Profile. Choose **Web**.
 
 ```text
-Using the established warm pink Book Hunt design system, design the Reading taste section of the existing Reader Profile page for a private single-user web app. Keep the current navigation, profile form, and responsive styling coherent. This section collects structured preferences for a future recommendation feature; it does not generate recommendations yet.
+Using the established warm pink Book Hunter design system, design the Reading taste section of the existing Reader Profile page for a private single-user web app. Keep the current navigation, profile form, and responsive styling coherent. This section collects structured preferences for a future recommendation feature; it does not generate recommendations yet.
 
 Include multi-select controls for favorite genres and themes and traits to avoid (at most five choices in each group). Include choices for preferred pace and writing style, plus optional 1–5 interest levels for plot twists and psychological depth. Show a clear empty first-use state, saved selections, Save disabled until changes exist, Cancel, save confirmation, loading, and a retryable error. Keep the choices understandable without assuming the owner has already rated any books.
 
-Do not invent personal preferences or recommend books. Do not imply that the name and avatar use the same storage as reading preferences: the former remain in this browser, while reading preferences are saved in Book Hunt's local PostgreSQL database. Avoid claims about public sharing, login, cloud sync, or AI inference.
+Do not invent personal preferences or recommend books. Do not imply that the name and avatar use the same storage as reading preferences: the former remain in this browser, while reading preferences are saved in Book Hunter's local PostgreSQL database. Avoid claims about public sharing, login, cloud sync, or AI inference.
 
 Design phone and desktop states with visible keyboard focus, accessible labels, WCAG AA text contrast, 44 × 44 px touch targets, and restrained use of pink. Return component boundaries and concise spacing, type, and color details for a React implementation.
 ```
@@ -101,10 +101,10 @@ Book Search reuses the supplied Discover states export. Later scanning features 
 
 ## Part 7 — Design shelf image upload
 
-Choose **Web** in Stitch. Submit this prompt on its own in the same Book Hunt project:
+Choose **Web** in Stitch. Submit this prompt on its own in the same Book Hunter project:
 
 ```text
-Using the existing warm pink Book Hunt design system, design one responsive Shelf Scan screen for a private, single-user React web app. This increment only uploads and stores a photograph of a bookstore shelf. It does not perform OCR, identify books, recommend titles, or add anything to My Library.
+Using the existing warm pink Book Hunter design system, design one responsive Shelf Scan screen for a private, single-user React web app. This increment only uploads and stores a photograph of a bookstore shelf. It does not perform OCR, identify books, recommend titles, or add anything to My Library.
 
 Include the established navigation, with Shelf Scan selected. Show a brief instruction to photograph book spines clearly, a labeled image chooser that accepts JPEG, PNG, or WebP, and a camera capture option on phones where the browser supports it. Explain the 8 MB limit. After selecting an image, show a preview, filename, size, Replace and Remove actions, and a clear Upload image button. Show uploading progress as a busy state without inventing an exact percentage, a retryable upload error that preserves the selected image, and a success state with the stored image preview and its ID. Explain that identification will come in a later step.
 

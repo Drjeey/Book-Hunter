@@ -45,10 +45,10 @@ function ScanIcon() {
 
 function Brand() {
   return (
-    <a className="brand" href="#discover" aria-label="Book Hunt home">
+    <a className="brand" href="#discover" aria-label="Book Hunter home">
       <BookHuntMark />
       <span className="brand-copy">
-        <span className="brand-name">Book Hunt</span>
+        <span className="brand-name">Book Hunter</span>
         <span className="brand-tagline">Your private reading companion</span>
       </span>
     </a>
@@ -134,10 +134,10 @@ function App() {
       <footer className="site-footer">
         <div className="footer-content">
           <div>
-            <p className="footer-brand">Book Hunt</p>
+            <p className="footer-brand">Book Hunter</p>
             <p>A quiet place for personal literary discoveries.</p>
           </div>
-          <p className="copyright">© Book Hunt. Built for quiet reading.</p>
+          <p className="copyright">© Book Hunter. Built for quiet reading.</p>
         </div>
       </footer>
 
