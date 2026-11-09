@@ -45,6 +45,10 @@ The frontend collects input and displays results. The backend validates a reques
 - `PUT /api/v1/taste-profile` validates and saves favorite genres/themes, traits to avoid, pace, writing style, and optional 1–5 interest levels for twists and psychological depth.
 - `taste_preferences` has one row per owner in PostgreSQL. The profile name and avatar remain separate in browser IndexedDB. Future recommendation scoring can read the structured preferences from the backend.
 
+## Shelf image storage (first scanner increment)
+
+The local API accepts a raw JPEG, PNG, or WebP body at `POST /api/v1/shelf-images` (maximum 8 MB). It checks the declared type and file signature, assigns a random ID, and writes the bytes to the ignored `backend/.local/shelf-images/` directory. `GET /api/v1/shelf-images/:id` reads the stored image for a later preview or OCR step. The ID is a filename-safe UUID; the browser never chooses a storage path. This is local storage only, with no OCR, database row, or cloud backup yet. The Node server stays bound to `127.0.0.1` because these private routes have no authentication.
+
 ## Architecture choice
 
 Book Hunt starts as a modular monolith: one frontend, one backend, and one PostgreSQL database. The pieces have separate responsibilities, but we avoid the operational overhead of multiple services for a private single-user app.

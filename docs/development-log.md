@@ -90,3 +90,11 @@
 - **API:** `GET /api/v1/taste-profile` returns the saved or empty profile and supported choices. `PUT /api/v1/taste-profile` validates the choices and saves them.
 - **Verification:** The backend syntax check, TypeScript compilation, and Vite production build passed. A read-only database call successfully loaded the empty first-use profile.
 - **Next:** Build shelf image upload as its own increment, then add OCR and book identification in later increments.
+
+## Increment 11a — shelf image storage API
+
+- **Built:** Added `POST /api/v1/shelf-images` for a raw JPEG, PNG, or WebP image up to 8 MB and `GET /api/v1/shelf-images/:id` for retrieval. Images are stored under random server-generated IDs in ignored local storage. The API checks the declared MIME type against the file's opening bytes and never uses a client-supplied filename as a path.
+- **Design:** Added a feature-sized Google Stitch prompt for the responsive Shelf Scan upload screen. The frontend screen follows review of that design.
+- **Teaching point:** An upload request carries bytes rather than JSON. The server sets a size limit, verifies the file type, writes it to a private directory, and returns an ID for later OCR processing.
+- **Verification:** Backend syntax check and four upload-storage tests passed. The tests cover a round trip, mismatched file bytes, an oversized body, and a path-like ID.
+- **Limit:** This is local-only storage. File signatures do not prove an image is fully decodable; later OCR must handle invalid image data. The API has no login and must not be exposed on a public host as-is.

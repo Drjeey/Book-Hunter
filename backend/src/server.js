@@ -9,6 +9,7 @@ import {
   updateLibraryStatus,
 } from "./books/library.js";
 import { pool } from "./db/pool.js";
+import { getShelfImage, readImageBody, saveShelfImage, ShelfImageError } from "./shelves/images.js";
 import { getTasteProfile, saveTasteProfile, TASTE_OPTIONS, TasteProfileError } from "./taste/profile.js";
 
 const port = Number(process.env.PORT ?? 8000);
@@ -57,6 +58,43 @@ const server = createServer(async (request, response) => {
 
       console.error("Book search failed:", error);
       sendJson(response, 500, { error: "Book search could not be completed." });
+    }
+    return;
+  }
+
+  if (requestUrl.pathname === "/api/v1/shelf-images" && request.method === "POST") {
+    try {
+      const image = await saveShelfImage(await readImageBody(request));
+      sendJson(response, 201, { image });
+    } catch (error) {
+      if (error instanceof ShelfImageError) {
+        sendJson(response, error.status, { error: error.message });
+        return;
+      }
+      console.error("Shelf image could not be saved:", error);
+      sendJson(response, 503, { error: "The image could not be saved. Please try again." });
+    }
+    return;
+  }
+
+  const shelfImageMatch = requestUrl.pathname.match(/^\/api\/v1\/shelf-images\/([^/]+)$/);
+  if (shelfImageMatch && request.method === "GET") {
+    try {
+      const image = await getShelfImage(shelfImageMatch[1]);
+      response.writeHead(200, {
+        "Content-Type": image.contentType,
+        "Content-Length": image.data.length,
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+      });
+      response.end(image.data);
+    } catch (error) {
+      if (error instanceof ShelfImageError) {
+        sendJson(response, error.status, { error: error.message });
+        return;
+      }
+      console.error("Shelf image could not be loaded:", error);
+      sendJson(response, 503, { error: "The image could not be loaded. Please try again." });
     }
     return;
   }

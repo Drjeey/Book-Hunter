@@ -97,7 +97,21 @@ Design phone and desktop states with visible keyboard focus, accessible labels, 
 
 ## Later prompts
 
-Book Search reuses the supplied Discover states export. Shelf Image Upload and later scanning features will each have their own feature-sized UX brief and Stitch prompt when ready. Reuse Part 1's design system for every later feature instead of restating the full product description.
+Book Search reuses the supplied Discover states export. Later scanning features will each have their own feature-sized UX brief and Stitch prompt. Reuse Part 1's design system for every later feature instead of restating the full product description.
+
+## Part 7 — Design shelf image upload
+
+Choose **Web** in Stitch. Submit this prompt on its own in the same Book Hunt project:
+
+```text
+Using the existing warm pink Book Hunt design system, design one responsive Shelf Scan screen for a private, single-user React web app. This increment only uploads and stores a photograph of a bookstore shelf. It does not perform OCR, identify books, recommend titles, or add anything to My Library.
+
+Include the established navigation, with Shelf Scan selected. Show a brief instruction to photograph book spines clearly, a labeled image chooser that accepts JPEG, PNG, or WebP, and a camera capture option on phones where the browser supports it. Explain the 8 MB limit. After selecting an image, show a preview, filename, size, Replace and Remove actions, and a clear Upload image button. Show uploading progress as a busy state without inventing an exact percentage, a retryable upload error that preserves the selected image, and a success state with the stored image preview and its ID. Explain that identification will come in a later step.
+
+Do not show fake OCR text, detected titles, confidence scores, recommendations, saved books, or sample personal photos. Do not imply cloud backup: images are currently stored by the local Node backend on this device. Keep the image private and avoid social sharing controls.
+
+Design mobile first and adapt to desktop. Use a visible focus state, associated labels, meaningful alternative text, clear disabled states, 44 × 44 px touch targets, WCAG AA text contrast, and no horizontal scrolling. Return component boundaries and concise spacing, type, and color details for React implementation.
+```
 
 ## Review gate
 
