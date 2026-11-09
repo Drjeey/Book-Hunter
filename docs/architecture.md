@@ -47,7 +47,11 @@ The frontend collects input and displays results. The backend validates a reques
 
 ## Shelf image storage (first scanner increment)
 
-The local API accepts a raw JPEG, PNG, or WebP body at `POST /api/v1/shelf-images` (maximum 8 MB). It checks the declared type and file signature, assigns a random ID, and writes the bytes to the ignored `backend/.local/shelf-images/` directory. `GET /api/v1/shelf-images/:id` reads the stored image for a later preview or OCR step. The ID is a filename-safe UUID; the browser never chooses a storage path. This is local storage only, with no OCR, database row, or cloud backup yet. The Node server stays bound to `127.0.0.1` because these private routes have no authentication.
+The local API accepts a raw JPEG, PNG, or WebP body at `POST /api/v1/shelf-images` (maximum 8 MB). It checks the declared type and file signature, assigns a random ID, and writes the bytes to the ignored `backend/.local/shelf-images/` directory. `GET /api/v1/shelf-images/:id` reads the stored image for a later preview or OCR step. The ID is a filename-safe UUID; the browser never chooses a storage path. This storage step does not itself run OCR or write a database row, and it provides no cloud backup. The Node server stays bound to `127.0.0.1` because these private routes have no authentication.
+
+## OCR request (raw text only)
+
+`POST /api/v1/shelf-images/:id/ocr` loads an already stored image and runs Tesseract.js in the local Node process. A single reusable English OCR worker handles one image at a time; its language data is cached under ignored local storage. The response contains the image ID and extracted text, including an empty string when no text is found. The API does not decide which words are titles or authors and does not save any books. The frontend review panel will be designed as a separate feature increment.
 
 ## Architecture choice
 

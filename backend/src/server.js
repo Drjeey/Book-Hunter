@@ -10,6 +10,7 @@ import {
 } from "./books/library.js";
 import { pool } from "./db/pool.js";
 import { getShelfImage, readImageBody, saveShelfImage, ShelfImageError } from "./shelves/images.js";
+import { closeOcrWorker, recognizeShelfImage } from "./shelves/ocr.js";
 import { getTasteProfile, saveTasteProfile, TASTE_OPTIONS, TasteProfileError } from "./taste/profile.js";
 
 const port = Number(process.env.PORT ?? 8000);
@@ -95,6 +96,22 @@ const server = createServer(async (request, response) => {
       }
       console.error("Shelf image could not be loaded:", error);
       sendJson(response, 503, { error: "The image could not be loaded. Please try again." });
+    }
+    return;
+  }
+
+  const shelfOcrMatch = requestUrl.pathname.match(/^\/api\/v1\/shelf-images\/([^/]+)\/ocr$/);
+  if (shelfOcrMatch && request.method === "POST") {
+    try {
+      const result = await recognizeShelfImage(shelfOcrMatch[1]);
+      sendJson(response, 200, result);
+    } catch (error) {
+      if (error instanceof ShelfImageError) {
+        sendJson(response, error.status, { error: error.message });
+        return;
+      }
+      console.error("Shelf image OCR failed:", error);
+      sendJson(response, 503, { error: "Text could not be read from this image. Please try again." });
     }
     return;
   }
@@ -204,6 +221,6 @@ server.listen(port, "127.0.0.1", () => {
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => {
-    server.close(() => pool.end().finally(() => process.exit(0)));
+    server.close(() => Promise.all([pool.end(), closeOcrWorker()]).finally(() => process.exit(0)));
   });
 }

@@ -116,3 +116,15 @@ Design mobile first and adapt to desktop. Use a visible focus state, associated 
 ## Review gate
 
 After Stitch generates each part, review its responsive layout, states, and consistency with the shared design system. Share the generated design or screenshots here. We will inspect the component structure and agree on any adjustments before implementing that feature.
+
+## Part 8 — Design OCR text review
+
+Choose **Web** in Stitch. Submit this prompt on its own in the same Book Hunter project:
+
+```text
+Using the existing warm pink Book Hunter design system and the Shelf Scan screen already created in this project, design one small OCR Text Review addition to the Shelf Scan screen. Keep the current upload and stored-image states. After an image is stored, the owner can choose “Read text from image.” The local Node backend may take time to initialize its English OCR worker on first use and returns raw extracted text. This step does not identify books, infer titles or authors, recommend anything, or add records to My Library.
+
+Show the stored image preview and real image ID, a clear Read text from image action, an indeterminate reading state, a plain-language failure with Retry, an empty-text state, and a raw-text result in a readable scrollable area. Explain that OCR can misread narrow or rotated spines and that the owner should review the text. Do not invent detected titles, fake confidence scores, bounding boxes, book cards, or sample personal images. Use neutral placeholder text only in the design demonstration, clearly marked as sample UI content.
+
+On desktop, place the text review near the stored image without crowding the existing screen. On a phone, stack it below the image and keep the primary action reachable above the bottom navigation. Keep the four-item navigation, pink/cream palette, visible keyboard focus, accessible status announcements, 44 × 44 px touch targets, WCAG AA contrast, and no horizontal scrolling. Return concise component boundaries and spacing/type details for React implementation.
+```

@@ -112,3 +112,11 @@
 - **Changed:** The visible app name, page title, PWA manifest, user-facing copy, README, and current architecture notes now say Book Hunter.
 - **Preserved:** Existing browser storage, event names, package identifiers, and the supplied Stitch export retain their earlier internal names to avoid disrupting saved local data or rewriting the historical design source.
 - **Verification:** Frontend production bundle and PWA manifest were generated with the Book Hunter name; backend syntax check passed.
+
+## Increment 12a — raw OCR backend
+
+- **Built:** Added `POST /api/v1/shelf-images/:id/ocr`. It loads a stored image and returns its ID plus raw text from a local Tesseract.js English OCR worker. Recognition jobs are serialized through one reusable worker. English language data is cached in ignored local storage.
+- **Scope:** No title extraction, author inference, book matching, database write, or My Library update. Empty OCR text is a valid result for an unreadable image.
+- **Verification:** Backend syntax check and existing four upload tests passed. A real OCR smoke check on the supplied Shelf Scan screenshot returned 865 characters, including “Shelf Scan”; several smaller words were misread, showing why human review is needed.
+- **Design:** Added a focused Stitch prompt for the raw-text review addition before implementing that frontend feature.
+- **Next:** Review the generated OCR Text Review design, connect the React screen to this endpoint, and test with a real shelf photo.

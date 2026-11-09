@@ -4,7 +4,7 @@ Book Hunter is a private, single-user bookstore assistant. We are building it in
 
 ## Current increment
 
-The Node.js backend has health, book-search, personal-library, taste-profile, and local shelf-image storage endpoints. The React frontend has responsive Discover, Shelf Scan, My Library, and Reader Profile screens. Search results come from Open Library through the Node API; a user can save a result, update its reading status, add a private rating and note, or remove it from My Library. Reader Profile also has a Reading taste editor for genres, themes, pace, writing style, and traits to avoid. Shelf Scan lets the owner select, preview, and upload one JPEG, PNG, or WebP image to the local backend, but does not read spines or identify books yet. PostgreSQL stores the library and reading preferences. The display name and avatar remain in browser IndexedDB on this device.
+The Node.js backend has health, book-search, personal-library, taste-profile, local shelf-image storage, and raw OCR endpoints. The React frontend has responsive Discover, Shelf Scan, My Library, and Reader Profile screens. Search results come from Open Library through the Node API; a user can save a result, update its reading status, add a private rating and note, or remove it from My Library. Reader Profile also has a Reading taste editor for genres, themes, pace, writing style, and traits to avoid. Shelf Scan lets the owner select, preview, and upload one JPEG, PNG, or WebP image to the local backend. The backend can now extract raw text from that image, but the UI for reviewing OCR and the later book-identification step are separate increments. PostgreSQL stores the library and reading preferences. The display name and avatar remain in browser IndexedDB on this device.
 
 ## Planned structure
 
@@ -19,6 +19,8 @@ See [docs/architecture.md](docs/architecture.md) for how a request moves through
 For the Netlify frontend build and its current backend limitation, see [docs/deploy-netlify.md](docs/deploy-netlify.md).
 
 For the new local image storage API, see [docs/shelf-image-upload.md](docs/shelf-image-upload.md). The focused Shelf Scan design prompt is Part 7 of [docs/designs/stitch-prompt-sequence.md](docs/designs/stitch-prompt-sequence.md).
+
+For the OCR endpoint and its first-run language download, see [docs/ocr.md](docs/ocr.md).
 
 The first frontend design prompts are in [docs/designs/stitch-prompt-sequence.md](docs/designs/stitch-prompt-sequence.md). Submit them one at a time in Google Stitch; the design review is recorded in [docs/designs/stitch-review.md](docs/designs/stitch-review.md).
 
