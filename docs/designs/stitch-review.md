@@ -56,3 +56,12 @@ The desktop composition matches the design brief and provides clear component bo
 - **Interaction:** The owner chooses up to five genres, themes, and traits to avoid, along with pace, writing style, and optional interest levels. Save is available only after changes; errors preserve the draft.
 - **Storage clarity:** The profile name and avatar stay in browser IndexedDB. Taste choices are saved through the Node API to PostgreSQL for later recommendation scoring.
 - **Stitch refinement:** Part 6 is ready for an optional feature-sized Stitch design. No generated Taste Profile screen was supplied for this increment.
+
+## Shelf Scan — Local Archive
+
+- **Reviewed:** The live [Stitch project](https://stitch.withgoogle.com/projects/14223034854353239220) has a Shelf Scan screen with responsive desktop and 390px phone previews. Its warm paper, deep pink action color, serif heading, and four-item navigation fit Book Hunt. The ready, selected, uploading, error, and success states cover the intended first upload increment.
+- **Use in React:** Keep the image chooser, optional camera capture, 8 MB and format guidance, selected-image preview, Replace/Remove, indeterminate uploading feedback, retry with the selected file retained, and success summary. Do not ship Stitch's state switcher, architecture tables, sample shelf photograph, or capture tips as required product content.
+- **Correct the success state:** The mockup's `shelf-scan-20250518-8f2a.webp`, `./storage/scans/...` path, date, and “disk commit” are examples, not API values. The backend returns a UUID, size, content type, and retrieval URL; show only those actual values. Do not reveal internal filesystem paths.
+- **Correct storage wording:** The image is stored on the computer running the local Node backend, which may be different from the phone taking the photo. Do not say it is saved on the phone or promise cloud sync. The current Netlify frontend has no hosted upload backend.
+- **Correct feedback:** Replace technical copy such as “write stream timed out” and “writing disk sectors” with plain language. Disable Replace and Remove during an active upload so the selected file cannot change mid-request. Validate JPEG, PNG, and WebP before upload; some phone cameras may produce HEIC, which this API does not accept.
+- **Outcome:** Suitable as the visual reference for the React upload screen with these data, wording, and interaction corrections. OCR and book identification remain later increments.
