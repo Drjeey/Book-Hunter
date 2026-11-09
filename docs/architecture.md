@@ -17,8 +17,8 @@ Browser / installed PWA
 React frontend
         ↓ HTTP request / JSON response
 Node.js backend API
-        ↓ SQL query
-PostgreSQL
+        ├── HTTPS search request → Open Library
+        └── SQL for saved records → PostgreSQL
 ```
 
 The frontend collects input and displays results. The backend validates a request, applies application rules, and looks up or changes data. PostgreSQL stores durable data. The browser never connects directly to PostgreSQL, so database credentials and access rules stay on the server.
@@ -27,9 +27,17 @@ The frontend collects input and displays results. The backend validates a reques
 
 1. The user enters a title and submits the search form.
 2. React sends a request such as `GET /api/v1/books?query=The%20Hobbit`.
-3. The Node.js API checks the request and asks PostgreSQL for matching books.
-4. The Node.js API returns matching records as JSON (or an empty list when there are no matches).
-5. React displays the response, including a helpful empty or error state.
+3. The Node.js API validates the request and searches the Open Library Search API for matching catalog records.
+4. The Node.js API maps provider fields to a small Book Hunt response and returns JSON (or an empty list when there are no matches). It caches search pages briefly and spaces provider requests to respect its low-volume API guidance.
+5. React displays the response, including loading, empty, and error states. The user can explicitly save a selected result through `POST /api/v1/library`; the backend stores catalog metadata and the owner's initial `want_to_read` status together in PostgreSQL.
+
+## Personal library requests
+
+- `GET /api/v1/library` lists the owner's saved books; `?status=reading` optionally filters by one of the supported statuses.
+- `POST /api/v1/library` validates and upserts Open Library metadata, then creates the owner-to-book relationship in a database transaction.
+- `PATCH /api/v1/library/:id` changes a saved book's reading status.
+- `PATCH /api/v1/library/:id/reflection` saves or clears the owner's optional 1–5 star rating and private note (up to 2000 characters).
+- `DELETE /api/v1/library/:id` removes the owner's relationship while leaving reusable catalog metadata intact.
 
 ## Architecture choice
 
@@ -37,4 +45,4 @@ Book Hunt starts as a modular monolith: one frontend, one backend, and one Postg
 
 ## Current scope
 
-This is the planned architecture. We will introduce API routes, screens, database tables, and deployment configuration in later increments and document them as they are built.
+PostgreSQL contains the catalog/library schema and the API uses it for personal library operations. Search uses Open Library for live book lookups. Deployment configuration is still deferred.

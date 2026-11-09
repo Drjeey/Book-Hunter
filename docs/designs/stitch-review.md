@@ -28,3 +28,24 @@ The desktop composition matches the design brief and provides clear component bo
 - **Removed unsupported details:** The export contained prefilled example names and portrait imagery, and made claims about telemetry and other features the app does not have. The implemented profile starts empty and explains only the storage behavior we provide.
 - **Storage decision:** Store one owner's profile in browser IndexedDB on the current device. This supports an optional image without placing image data in localStorage. The name and image are not uploaded to the Node API.
 - **Validation:** Production build passed TypeScript and Vite bundling. Browser preview showed Profile in the shared navigation; submitting a whitespace-only name announced the required-name error, and Cancel returned the form to its pristine state.
+
+## Book Search
+
+- **Reference:** Reused the provided Discover states export for the search form, result-card layout, loading placeholders, and error treatment.
+- **Adapted:** Result cards display live Open Library metadata and link to the source record. The export's sample books remain examples; the app does not hard-code them.
+- **Deferred:** The export's add-to-library interaction remains out of scope until My Library is implemented. Search does not write records to PostgreSQL.
+- **Responsive behavior:** Use a two-column result grid on wider screens and a single-column list on phone widths.
+
+## My Library
+
+- **Accepted:** The warm editorial style, status filters, saved-book cards, empty shelf concept, and responsive phone adaptation. The desktop card grid is adapted to the app's content width; mobile uses a single-column list.
+- **Removed from the export:** Reviewer state controls, sample saved titles and covers, publication/completion dates, the literary quotation, and unsupported offline/telemetry claims. These are mockup content, not the owner's data or app guarantees. Reused Book Hunt's local mark and typography/colors rather than the export's broken remote logo asset.
+- **Implemented behavior:** Results saved from Discover appear in My Library with Want to read as the initial status. The owner can filter by status, change status, and remove a title after a browser confirmation. Missing covers and authors have neutral fallbacks.
+- **Storage:** Saved catalog records and owner statuses live in PostgreSQL through the Node.js API. Removing a title deletes the library relationship but keeps catalog metadata. The existing Reader Profile remains in browser IndexedDB.
+- **Scope:** No ratings, notes, reading dates, goals, recommendations, purchase links, multi-user controls, or offline-storage promise.
+
+## Ratings and Notes
+
+- **Current UI:** A compact editor inside each saved-book card uses the existing warm paper and raspberry styles. It shows a saved rating and a short note preview when collapsed.
+- **Interaction:** One optional 1–5 star rating and one optional note per saved book. Save is disabled until the draft changes; Cancel discards the draft; a failed save leaves the editor open.
+- **Stitch refinement:** Part 5 of the prompt sequence is ready if a separate Stitch design is desired for this interaction. No new Stitch export was supplied for this increment.

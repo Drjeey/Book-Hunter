@@ -30,10 +30,6 @@ Show four content states: loading, first-use empty, error with plain-language me
 Design mobile first for a phone in portrait, then show the desktop adaptation. Keep the search reachable, respect safe areas, constrain text width on large screens, and prevent horizontal scrolling. Use semantic heading order, visible keyboard focus, accessible names for icon buttons, clear pressed/disabled states, and do not rely on color alone for selection or errors. Respect reduced-motion preferences. Return component boundaries and enough spacing/type/color detail to implement the screen consistently in React.
 ```
 
-## Later prompts
-
-We will write a separate, similarly scoped prompt when each new feature is ready for design. Book Search, Personal Library, Ratings and Notes, and Scanner Upload will each have their own UX brief and Stitch prompt. Reuse Part 1's design system for every later feature instead of restating the entire product description.
-
 ## Part 3 — Design the reader profile
 
 After the app shell is in place, submit this prompt on its own in the same Stitch project:
@@ -52,6 +48,42 @@ Use realistic labels and neutral placeholder guidance, not prefilled personal da
 
 Design mobile first for a phone in portrait, then show the desktop adaptation. Keep the form comfortable to use, respect safe areas, prevent horizontal scrolling, and use clear semantic headings, associated labels, visible keyboard focus, accessible avatar control naming, and at least 44 × 44 px touch targets. Keep error and success states understandable without color alone, and respect reduced-motion preferences. Return component boundaries and the spacing/type/color details needed for a React implementation.
 ```
+
+## Part 4 — Design My Library
+
+Submit this prompt by itself in the same Stitch project after Part 3. Choose **Web** in Stitch because Book Hunt is a responsive React web app.
+
+```text
+Using the Book Hunt design system already established in this project, design the next responsive web app screen: My Library. Book Hunt is a private, single-user reading companion. This screen manages books the owner has chosen to save; it is not a bookstore or a public catalog.
+
+Include:
+- The shared Book Hunt navigation, with My Library selected. Use the established labeled bottom navigation on mobile and desktop navigation on wide screens.
+- A clear My Library page title and a concise count or summary area that can be omitted when there are no saved books.
+- A compact filter for the four supported reading statuses: Want to read, Reading, Read, and Did not finish. Make the selected filter clear without relying on color alone.
+- A responsive list/grid of saved book cards. Each card may show the book cover when available, title, author, and a clearly labeled status control. Include an overflow or secondary action to remove a book, with a confirmation step before removal.
+- A first-use empty state that says the library is empty and offers a clear Discover books action leading back to Discover.
+- Loading and error states with a plain-language retry action. Keep the shared page shell stable across states.
+
+Do not invent saved books, ratings, notes, reading dates, goals, recommendations, purchase links, social activity, or multi-user features. Do not imply cloud sync. Book records come from the owner's explicit save action in Discover and may have incomplete cover or author metadata; show a graceful cover fallback and handle missing author text.
+
+Design mobile first for a phone in portrait, then show the desktop adaptation. Prevent horizontal scrolling, use comfortable card spacing, semantic heading order and labels, visible keyboard focus, clear disabled/error states, and touch targets of at least 44 × 44 px. Respect reduced-motion preferences and WCAG AA text contrast. Return component boundaries and enough spacing/type/color detail to implement the screen consistently in React.
+```
+
+## Part 5 — Design ratings and notes
+
+Use this prompt on its own in the same Stitch project to refine the ratings and notes controls in My Library. Choose **Web**.
+
+```text
+Using the established Book Hunt design system, design a small Ratings and Notes interaction for one saved book in My Library. This is a private, single-user React web app. Keep the current library card, status control, and mobile/desktop navigation consistent with the existing design.
+
+The owner may set one optional rating from 1 to 5 stars and write one optional private note of up to 2000 characters per saved book. Both can be edited or cleared later. Show the collapsed card summary, the open editing state, a disabled Save when nothing has changed, Cancel, a successful save state, and a plain-language save error that keeps the draft intact. Label the rating and note controls, show the note length, and make the empty rating choice clear.
+
+Use no sample personal opinions, invented ratings, social reviews, public sharing, recommendations, reading dates, or cloud-sync claims. Design phone and desktop states, visible keyboard focus, WCAG AA text contrast, accessible names, and at least 44 × 44 px touch targets. Return component boundaries and concise spacing, type, and color details for React implementation.
+```
+
+## Later prompts
+
+Book Search reuses the supplied Discover states export. Taste Profile and Scanner Upload will each have their own feature-sized UX brief and Stitch prompt when those features are ready. Reuse Part 1's design system for every later feature instead of restating the full product description.
 
 ## Review gate
 

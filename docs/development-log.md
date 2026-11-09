@@ -50,3 +50,35 @@
 - **Result:** The client/server binaries are present, but the installer did not produce a running server. Two cluster initialization attempts stalled before completion; no server responded on `127.0.0.1:5432`.
 - **Cleanup:** Removed only the incomplete data directories and generated local connection file created by these attempts. Added `database/.local/` to `.gitignore` for future development database files.
 - **Verification status:** No PostgreSQL migration was applied. The runner and SQL remain committed; the live schema/constraint check must be repeated when a local PostgreSQL server is available outside this stalled environment.
+
+## Increment 6 — local PostgreSQL database connected
+
+- **Configured:** Installed PostgreSQL 18.6, started the Windows service, and created a local development database. The existing database is named `book_hunter_dev`; the local `backend/.env` was updated to use that exact name. The password remains local and is not recorded here.
+- **Applied:** Ran `npm run migrate`; PostgreSQL recorded and applied `001_initial_catalog_library.sql`.
+- **Verified:** Queried the database and confirmed the `books`, `schema_migrations`, `user_books`, and `users` tables exist.
+- **Teaching point:** The database name in the connection string must exactly match the database created in PostgreSQL. `.env` keeps machine-specific connection details out of the shared project.
+- **Next:** Add a backend book-search endpoint that can look up catalog results, then connect the React Discover form to it.
+
+## Increment 7 — book search
+
+- **Built:** Added `GET /api/v1/books?query=...&page=...` to the Node.js API. It validates the query/page, requests one page of metadata from Open Library, maps it into a small Book Hunt response, and returns clear provider errors.
+- **Provider care:** The backend requests only the fields used by the screen, caches each query page in memory for five minutes, coalesces matching in-flight requests, and spaces uncached provider calls at least one second apart.
+- **Frontend:** Enabled the Discover search form and connected it through the Vite `/api` proxy. Added result cards with cover fallbacks and source links, loading placeholders, no-match and error states, retry, and paging. My Library remains a placeholder; search does not save records yet.
+- **Teaching point:** The backend is an API boundary: it protects the provider integration from the UI and turns provider-specific fields into a stable shape React can use. Search metadata is distinct from a saved catalog row and a personal-library relationship.
+- **Source:** Open Library documents the `/search.json` endpoint, selected fields, and page/limit parameters. Its guidance recommends caching, application identification, and low request rates; see [Search API](https://openlibrary.org/dev/docs/api/search) and [API usage guidelines](https://openlibrary.org/developers/api).
+- **Next:** Design and implement My Library as a separate feature increment.
+
+## Increment 8 — My Library
+
+- **Reviewed:** Used the supplied Stitch My Library export for its pink editorial style, shelf filters, and responsive card layout. Removed the review-only state controls, invented saved books/dates/quote, broken remote logo, and unsupported offline-storage claims.
+- **Built:** Added PostgreSQL-backed Node API routes to list, save, update status, and remove books. Search results now have an Add to My Library action; saved books start at Want to read. The React library screen supports status filters, cover/author fallbacks, loading/error/empty states, status changes, and confirmed removal.
+- **Storage:** Book metadata and owner statuses persist in PostgreSQL. Removing a book deletes its owner relationship while preserving catalog metadata. Reader Profile continues to use browser IndexedDB.
+- **Next:** Build Ratings and Notes when its design is ready.
+
+## Increment 9 — ratings and notes
+
+- **Built:** Added one optional 1–5 star rating and one editable private note (up to 2000 characters) per saved book. The My Library card now opens an inline editor with Save, Cancel, and clearing options.
+- **Database:** `002_library_reflections.sql` adds two nullable fields to `user_books` with check constraints. The migration was applied to the local `book_hunter_dev` database; the earlier migration was already present.
+- **API:** `PATCH /api/v1/library/:id/reflection` validates the rating and note, updates only the owner's saved book, and returns their stored values. `GET /api/v1/library` includes them.
+- **UI:** Drafts stay open on save failure. The collapsed card displays the saved rating and note. Ratings and notes are private to the single-user library.
+- **Build check:** Backend syntax check passed. TypeScript and Vite produced a successful build output; the combined command remained open after that output and was stopped. The generated files were checked separately.

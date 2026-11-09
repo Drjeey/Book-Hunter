@@ -4,7 +4,7 @@ Book Hunt is a private, single-user bookstore assistant. We are building it in s
 
 ## Current increment
 
-The Node.js backend has a local health endpoint at `GET /api/v1/health`. The React frontend has a responsive Discover shell and a private Reader Profile. The profile is stored in browser IndexedDB on this device. The initial PostgreSQL migration and Node.js runner are prepared, but the database has not yet been applied or connected. Search is not connected yet; see [docs/database-design.md](docs/database-design.md) for setup and verification status.
+The Node.js backend has health, book-search, and personal-library endpoints. The React frontend has responsive Discover, My Library, and Reader Profile screens. Search results come from Open Library through the Node API; a user can save a result, update its reading status, add a private rating and note, or remove it from My Library. PostgreSQL stores saved catalog records, library statuses, ratings, and notes. The profile is stored separately in browser IndexedDB on this device.
 
 ## Planned structure
 
@@ -18,4 +18,4 @@ See [docs/architecture.md](docs/architecture.md) for how a request moves through
 
 The first frontend design prompts are in [docs/designs/stitch-prompt-sequence.md](docs/designs/stitch-prompt-sequence.md). Submit them one at a time in Google Stitch; the design review is recorded in [docs/designs/stitch-review.md](docs/designs/stitch-review.md).
 
-To run the backend locally, open a terminal in `backend/` and run `npm start`, then visit `http://127.0.0.1:8000/api/v1/health`. To run the frontend, open another terminal in `frontend/`, run `npm install` once, then `npm run dev`.
+To run the backend locally, open a terminal in `backend/` and run `npm.cmd run migrate` once to apply new database changes, then `npm.cmd start` and visit `http://127.0.0.1:8000/api/v1/health`. To run the frontend, open another terminal in `frontend/`, run `npm.cmd install` once, then `npm.cmd run dev`. The `.cmd` form also works in PowerShell installations that block `npm.ps1`.

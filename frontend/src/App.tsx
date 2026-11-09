@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import './BookHunt.css'
+import BookSearch from './BookSearch'
+import BookLibrary from './BookLibrary'
 import ProfilePage from './ProfilePage'
 
 function BookHuntMark() {
@@ -31,15 +33,6 @@ function LibraryIcon() {
   )
 }
 
-function SearchIcon() {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-      <circle cx="10.8" cy="10.8" r="6.3" />
-      <path d="m15.5 15.5 4.2 4.2" />
-    </svg>
-  )
-}
-
 function Brand() {
   return (
     <a className="brand" href="#discover" aria-label="Book Hunt home">
@@ -61,22 +54,17 @@ function ProfileIcon() {
   )
 }
 
-function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; activePage: 'discover' | 'profile' }) {
+function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; activePage: 'discover' | 'library' | 'profile' }) {
   return (
     <nav aria-label="Primary navigation" className={mobile ? 'mobile-navigation' : 'desktop-navigation'}>
       <a className={`navigation-link ${activePage === 'discover' ? 'navigation-link-active' : ''}`} href="#discover" aria-current={activePage === 'discover' ? 'page' : undefined}>
         <DiscoverIcon />
         <span>Discover</span>
       </a>
-      <span className="navigation-link navigation-link-disabled" aria-disabled="true">
+      <a className={`navigation-link ${activePage === 'library' ? 'navigation-link-active' : ''}`} href="#library" aria-current={activePage === 'library' ? 'page' : undefined}>
         <LibraryIcon />
         <span>My Library</span>
-        {mobile ? (
-          <span className="visually-hidden">Coming soon</span>
-        ) : (
-          <span className="coming-soon">Coming soon</span>
-        )}
-      </span>
+      </a>
       <a className={`navigation-link ${activePage === 'profile' ? 'navigation-link-active' : ''}`} href="#profile" aria-current={activePage === 'profile' ? 'page' : undefined}>
         <ProfileIcon />
         <span>Profile</span>
@@ -85,58 +73,18 @@ function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; a
   )
 }
 
-function SearchPanel() {
-  return (
-    <section aria-labelledby="search-heading" className="search-section">
-      <h2 id="search-heading">Search by title or author</h2>
-      <p className="search-description">Book search will be added in the next feature step.</p>
-      <form className="search-form" role="search">
-        <label className="search-field">
-          <SearchIcon />
-          <span className="visually-hidden">Search for a book by title or author</span>
-          <input
-            type="search"
-            placeholder="e.g., Virginia Woolf, Middlemarch, or Invisible Man"
-            disabled
-          />
-        </label>
-        <button className="search-button" type="button" disabled>
-          Search <span aria-hidden="true">→</span>
-        </button>
-      </form>
-    </section>
-  )
-}
-
-function EmptyState() {
-  return (
-    <section aria-labelledby="empty-heading" className="empty-state">
-      <div className="empty-icon-wrap">
-        <BookHuntMark />
-      </div>
-      <h2 id="empty-heading">Your reading shelf is waiting</h2>
-      <p>
-        Once book search is ready, you’ll be able to find titles and save the ones you
-        want to remember in your private collection.
-      </p>
-      <div className="privacy-note">
-        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-          <rect x="5" y="10" width="14" height="10" rx="2" />
-          <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v2" />
-        </svg>
-        <span>One private library. No public profile.</span>
-      </div>
-    </section>
-  )
-}
-
 function App() {
-  const [activePage, setActivePage] = useState<'discover' | 'profile'>(() =>
-    window.location.hash === '#profile' ? 'profile' : 'discover',
+  const readPage = (): 'discover' | 'library' | 'profile' => {
+    if (window.location.hash === '#profile') return 'profile'
+    if (window.location.hash === '#library') return 'library'
+    return 'discover'
+  }
+  const [activePage, setActivePage] = useState<'discover' | 'library' | 'profile'>(() =>
+    readPage(),
   )
 
   useEffect(() => {
-    const syncPage = () => setActivePage(window.location.hash === '#profile' ? 'profile' : 'discover')
+    const syncPage = () => setActivePage(readPage())
     window.addEventListener('hashchange', syncPage)
     return () => window.removeEventListener('hashchange', syncPage)
   }, [])
@@ -150,7 +98,7 @@ function App() {
         </div>
       </header>
 
-      {activePage === 'profile' ? <ProfilePage /> : <main id="discover" className="main-content">
+      {activePage === 'profile' ? <ProfilePage /> : activePage === 'library' ? <BookLibrary /> : <main id="discover" className="main-content">
         <div className="page-intro">
           <p className="eyebrow">
             <DiscoverIcon />
@@ -163,8 +111,7 @@ function App() {
           </p>
         </div>
 
-        <SearchPanel />
-        <EmptyState />
+        <BookSearch />
       </main>}
 
       <footer className="site-footer">

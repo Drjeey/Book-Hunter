@@ -98,7 +98,7 @@ The reader profile currently lives in IndexedDB on the browser device. It is not
 
 ## Saving a selected search result
 
-When a future search result is saved, the API will find or insert its catalog row, then attach it to the owner in a transaction:
+When a search result is saved, the API finds or inserts its catalog row, then attaches it to the owner in a transaction:
 
 ```text
 BEGIN
@@ -113,6 +113,10 @@ If either write fails, the transaction rolls both back. This prevents an incompl
 
 The first numbered SQL migration is `database/migrations/001_initial_catalog_library.sql`. It creates `users`, `books`, and `user_books`, adds their primary keys, foreign keys, uniqueness rules, indexes, and checks, and inserts one owner row. The Node.js migration runner creates a `schema_migrations` table to record applied versions and runs each file inside a transaction. A PostgreSQL advisory lock keeps two migration processes from applying the same version at once. Later features will add their own migrations rather than rebuilding the whole schema at once.
 
-The runner reads `DATABASE_URL` from the environment or `backend/.env`. Copy `backend/.env.example` to `backend/.env`, set the connection string for a local database, then run `npm run migrate` from `backend/`. The `.env` file is ignored by Git so local connection details are not committed.
+The runner reads `DATABASE_URL` from the environment or `backend/.env`. Copy `backend/.env.example` to `backend/.env`, set the connection string for a local database, then run `npm run migrate` from `backend/`. The `.env` file is ignored by Git so local connection details are not committed. The My Library API uses the same connection to list saved books, change statuses, and remove the owner's library relationship.
 
-**Verification status:** Node syntax checks pass. PostgreSQL 18.6 binaries are present, but no local server is running. Two `initdb` attempts stalled before completing the cluster, so the migration has not been applied. The incomplete cluster and generated connection file were removed. Start a local PostgreSQL server in a regular PowerShell session, configure `backend/.env`, then inspect constraints and test reruns/transaction behavior before connecting the API.
+**Verification status:** Applied `001_initial_catalog_library.sql` to the local PostgreSQL 18.6 database and confirmed that `books`, `users`, `user_books`, and `schema_migrations` exist. This machine's database is named `book_hunter_dev`; `backend/.env` points to that local database. The example setup uses `book_hunt_dev`, so new setups should keep their database name and connection string in sync. The local `.env` is ignored by Git and contains the user's private connection details.
+
+## Second migration — ratings and notes
+
+`002_library_reflections.sql` adds an optional `rating` and `personal_note` to `user_books`. Both belong to the owner's relationship with a saved book, not to shared catalog metadata. A database check keeps ratings between 1 and 5 and notes at 2000 characters or fewer. `NULL` means no rating or note. The Node API validates the same rules before updating either field. Removing a book from My Library also removes its rating and note with that library relationship.
