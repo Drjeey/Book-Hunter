@@ -3,6 +3,7 @@ import './BookHunt.css'
 import BookSearch from './BookSearch'
 import BookLibrary from './BookLibrary'
 import ProfilePage from './ProfilePage'
+import ShelfScan from './ShelfScan'
 
 function BookHuntMark() {
   return (
@@ -33,6 +34,15 @@ function LibraryIcon() {
   )
 }
 
+function ScanIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+      <path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3" />
+      <path d="M7 9h10v7H7zM10 9V7h4v2" />
+    </svg>
+  )
+}
+
 function Brand() {
   return (
     <a className="brand" href="#discover" aria-label="Book Hunt home">
@@ -54,12 +64,18 @@ function ProfileIcon() {
   )
 }
 
-function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; activePage: 'discover' | 'library' | 'profile' }) {
+type Page = 'discover' | 'scan' | 'library' | 'profile'
+
+function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; activePage: Page }) {
   return (
     <nav aria-label="Primary navigation" className={mobile ? 'mobile-navigation' : 'desktop-navigation'}>
       <a className={`navigation-link ${activePage === 'discover' ? 'navigation-link-active' : ''}`} href="#discover" aria-current={activePage === 'discover' ? 'page' : undefined}>
         <DiscoverIcon />
         <span>Discover</span>
+      </a>
+      <a className={`navigation-link ${activePage === 'scan' ? 'navigation-link-active' : ''}`} href="#scan" aria-current={activePage === 'scan' ? 'page' : undefined}>
+        <ScanIcon />
+        <span>Shelf Scan</span>
       </a>
       <a className={`navigation-link ${activePage === 'library' ? 'navigation-link-active' : ''}`} href="#library" aria-current={activePage === 'library' ? 'page' : undefined}>
         <LibraryIcon />
@@ -74,12 +90,13 @@ function PrimaryNavigation({ mobile = false, activePage }: { mobile?: boolean; a
 }
 
 function App() {
-  const readPage = (): 'discover' | 'library' | 'profile' => {
+  const readPage = (): Page => {
     if (window.location.hash === '#profile') return 'profile'
     if (window.location.hash === '#library') return 'library'
+    if (window.location.hash === '#scan') return 'scan'
     return 'discover'
   }
-  const [activePage, setActivePage] = useState<'discover' | 'library' | 'profile'>(() =>
+  const [activePage, setActivePage] = useState<Page>(() =>
     readPage(),
   )
 
@@ -98,7 +115,7 @@ function App() {
         </div>
       </header>
 
-      {activePage === 'profile' ? <ProfilePage /> : activePage === 'library' ? <BookLibrary /> : <main id="discover" className="main-content">
+      {activePage === 'profile' ? <ProfilePage /> : activePage === 'library' ? <BookLibrary /> : activePage === 'scan' ? <ShelfScan /> : <main id="discover" className="main-content">
         <div className="page-intro">
           <p className="eyebrow">
             <DiscoverIcon />

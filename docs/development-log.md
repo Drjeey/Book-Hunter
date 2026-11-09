@@ -98,3 +98,11 @@
 - **Teaching point:** An upload request carries bytes rather than JSON. The server sets a size limit, verifies the file type, writes it to a private directory, and returns an ID for later OCR processing.
 - **Verification:** Backend syntax check and four upload-storage tests passed. The tests cover a round trip, mismatched file bytes, an oversized body, and a path-like ID.
 - **Limit:** This is local-only storage. File signatures do not prove an image is fully decodable; later OCR must handle invalid image data. The API has no login and must not be exposed on a public host as-is.
+
+## Increment 11b — Shelf Scan frontend
+
+- **Design source:** Reviewed the supplied Shelf Scan Stitch export and used its pink upload card, file/camera actions, and responsive layout. Omitted the reviewer state controls, sample photograph, sample ID/path/date, and engineering showcase.
+- **Built:** Added Shelf Scan to desktop and phone navigation. The screen selects or captures a supported image, validates its type and 8 MB limit, previews it, permits replacement or removal, and posts the raw file to the local Node API. The selected file remains available after a failed upload. Success displays the actual returned ID, type, size, and stored preview URL.
+- **Copy corrections:** The screen says storage is on the computer running the local backend. It does not promise that a phone holds the image or that Netlify hosts uploads. The busy and error messages use plain language.
+- **Verification:** TypeScript and Vite production build passed. Browser visual inspection of the local preview was unavailable because this environment blocked access to its loopback server; inspect the page in a local browser when running the app.
+- **Next:** Add OCR as a separate increment, after the upload flow is verified with a real shelf photograph on the user's machine.
