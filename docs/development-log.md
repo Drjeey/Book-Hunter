@@ -134,3 +134,9 @@
 - **Built:** Added a Netlify function for `GET /api/v1/books` that reuses the existing Open Library search module. The Netlify build marks itself as a public search-only version: catalog search remains available, while library saving, shelf image upload/OCR, and database-backed reading taste show clear availability notices. Local development continues to use the private Node backend for all features.
 - **Verification:** The Netlify handler's invalid-query and normalized-result tests pass with a mocked catalog response. The Vite/TypeScript production build passes. A successful Netlify build and public function check remain to be verified after GitHub push and publication.
 - **Next:** Publish the completed Netlify deploy; then test a real catalog query on the live site. Plan hosted owner authentication and durable storage before exposing private library or shelf routes.
+
+## Increment 14 — browser library on the public site
+
+- **Built:** The Netlify build now keeps saved books, reading statuses, ratings, and notes in the current browser's IndexedDB. Discover's Save action and My Library use one storage client; local development continues to use the existing Node/PostgreSQL routes. The public library clearly states its browser-only storage limit.
+- **Verification:** Both public and local TypeScript/Vite builds passed. The existing Netlify search tests passed. The local browser preview could not be reached from the browser automation environment; an end-to-end save/edit/remove check remains for the successful Netlify deploy preview after GitHub push.
+- **Limit:** Browser data is specific to each origin and device. A deploy preview has different storage from the main Netlify domain. There is no account, sync, or cloud backup. Shelf Scan and database-backed reading taste still require local Node.

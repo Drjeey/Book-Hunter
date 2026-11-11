@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { publicSearchOnly } from './deployment'
+import { publicSite } from './deployment'
+import { addLibraryBook, LibraryClientError, listLibraryBooks } from './libraryClient'
 
 type BookResult = {
   id: string
@@ -130,8 +131,8 @@ function BookCard({ book, isSaved, isSaving, saveMessage, onSave }: {
         <a className="book-source-link" href={book.sourceUrl} target="_blank" rel="noreferrer">
           View on Open Library <span aria-hidden="true">↗</span>
         </a>
-        <button className="library-save-button" type="button" disabled={publicSearchOnly || isSaved || isSaving} onClick={onSave}>
-          {publicSearchOnly ? 'Saving unavailable online' : isSaved ? 'In your library' : isSaving ? 'Saving…' : 'Add to My Library'}
+        <button className="library-save-button" type="button" disabled={isSaved || isSaving} onClick={onSave}>
+          {isSaved ? 'In your library' : isSaving ? 'Saving…' : 'Add to My Library'}
         </button>
         {saveMessage && <span className="library-save-message" role="status">{saveMessage}</span>}
       </div>
@@ -153,15 +154,8 @@ export default function BookSearch() {
   const [saveMessages, setSaveMessages] = useState<Record<string, string>>({})
 
   const refreshSavedBooks = useCallback(() => {
-    if (publicSearchOnly) return
-    fetch('/api/v1/library')
-      .then(async (response) => {
-        if (!response.ok) return null
-        return await response.json() as { books: { sourceBookId: string }[] }
-      })
-      .then((payload) => {
-        if (payload) setSavedIds(new Set(payload.books.map((book) => book.sourceBookId)))
-      })
+    listLibraryBooks()
+      .then((books) => setSavedIds(new Set(books.map((book) => book.sourceBookId))))
       .catch(() => {})
   }, [])
 
@@ -175,24 +169,16 @@ export default function BookSearch() {
     setSavingIds((current) => new Set(current).add(book.id))
     setSaveMessages((current) => ({ ...current, [book.id]: '' }))
     try {
-      const response = await fetch('/api/v1/library', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(book),
-      })
-      const payload = await response.json() as { error?: string }
-      if (!response.ok) {
-        if (response.status === 409) {
-          setSavedIds((current) => new Set(current).add(book.id))
-          setSaveMessages((current) => ({ ...current, [book.id]: 'Already saved in your library.' }))
-          return
-        }
-        throw new Error(payload.error || 'This book could not be saved. Please try again.')
-      }
+      await addLibraryBook(book)
       setSavedIds((current) => new Set(current).add(book.id))
       setSaveMessages((current) => ({ ...current, [book.id]: 'Added to your library.' }))
       window.dispatchEvent(new Event('bookhunt:library-updated'))
     } catch (error) {
+      if (error instanceof LibraryClientError && error.status === 409) {
+        setSavedIds((current) => new Set(current).add(book.id))
+        setSaveMessages((current) => ({ ...current, [book.id]: 'Already saved in your library.' }))
+        return
+      }
       setSaveMessages((current) => ({
         ...current,
         [book.id]: error instanceof Error ? error.message : 'This book could not be saved. Please try again.',
@@ -268,7 +254,7 @@ export default function BookSearch() {
       <section aria-labelledby="search-heading" className="search-section">
         <h2 id="search-heading">Search by title or author</h2>
         <p className="search-description">Search the Open Library catalog to find books for your reading list.</p>
-        {publicSearchOnly && <p className="public-feature-note">Catalog search works online. Saving books requires the private backend, which is not hosted yet.</p>}
+        {publicSite && <p className="public-feature-note">Search the catalog and save books in this browser. Your library stays on this device and is not synced online.</p>}
         <form className="search-form" role="search" onSubmit={handleSubmit}>
           <label className="search-field">
             <SearchIcon />

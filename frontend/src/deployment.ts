@@ -1,2 +1,2 @@
-// The public Netlify build has catalog search, but no private database or image store.
-export const publicSearchOnly = import.meta.env.VITE_PUBLIC_SEARCH_ONLY === 'true'
+// The Netlify build stores its personal library in the browser; shelf OCR still needs local Node.
+export const publicSite = import.meta.env.VITE_PUBLIC_SITE === 'true'

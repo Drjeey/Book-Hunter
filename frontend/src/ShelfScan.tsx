@@ -1,6 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type DragEvent } from 'react'
 import OcrReview from './OcrReview'
-import { publicSearchOnly } from './deployment'
+import { publicSite } from './deployment'
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024
 const IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
@@ -40,7 +40,7 @@ function ImagePicker({ onSelect, disabled, camera = false, label }: {
 }
 
 export default function ShelfScan() {
-  if (publicSearchOnly) {
+  if (publicSite) {
     return <main id="scan" className="main-content scan-page">
       <div className="page-intro scan-intro"><p className="eyebrow">Shelf photographs · Private local storage</p><h1>Shelf Scan</h1></div>
       <section className="scan-card scan-online-message" aria-labelledby="scan-online-heading">

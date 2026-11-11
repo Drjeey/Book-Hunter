@@ -1,19 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { publicSearchOnly } from './deployment'
-
-type ReadingStatus = 'want_to_read' | 'reading' | 'read' | 'did_not_finish'
-type LibraryBook = {
-  id: string
-  sourceBookId: string
-  title: string
-  authors: string[]
-  firstPublishedYear: number | null
-  coverUrl: string | null
-  isbn: string | null
-  status: ReadingStatus
-  rating: number | null
-  note: string
-}
+import { publicSite } from './deployment'
+import { listLibraryBooks, removeLibraryBook, updateBookReflection, updateBookStatus, type LibraryBook, type ReadingStatus } from './libraryClient'
 
 const statusLabels: Record<ReadingStatus, string> = {
   want_to_read: 'Want to read',
@@ -39,20 +26,6 @@ function Cover({ book }: { book: LibraryBook }) {
 }
 
 export default function BookLibrary() {
-  if (publicSearchOnly) {
-    return <main id="library" className="main-content library-page">
-      <div className="page-intro library-intro"><p className="eyebrow">Private archive · Reading shelf</p><h1>My Library</h1></div>
-      <section className="library-message library-empty" aria-labelledby="library-online-heading">
-        <h2 id="library-online-heading">Your private library is not hosted yet</h2>
-        <p>Book Hunter can search the catalog online. Saving books, ratings, and notes requires the private backend and database. Your local library is available when you run the app on your computer.</p>
-        <a className="button button-primary" href="#discover">Search books</a>
-      </section>
-    </main>
-  }
-  return <PrivateBookLibrary />
-}
-
-function PrivateBookLibrary() {
   const [books, setBooks] = useState<LibraryBook[]>([])
   const [filter, setFilter] = useState<'all' | ReadingStatus>('all')
   const [loading, setLoading] = useState(true)
@@ -68,10 +41,8 @@ function PrivateBookLibrary() {
     setError('')
     setActionError('')
     try {
-      const response = await fetch('/api/v1/library')
-      const payload = await response.json() as { books?: LibraryBook[]; error?: string }
-      if (!response.ok) throw new Error(payload.error || 'Your library could not be loaded. Please try again.')
-      setBooks((payload.books ?? []).map((book) => ({
+      const libraryBooks = await listLibraryBooks()
+      setBooks(libraryBooks.map((book) => ({
         ...book,
         rating: book.rating ?? null,
         note: book.note ?? '',
@@ -97,13 +68,7 @@ function PrivateBookLibrary() {
     setBusyIds((current) => [...current, book.id])
     setActionError('')
     try {
-      const response = await fetch(`/api/v1/library/${encodeURIComponent(book.id)}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
-      })
-      const payload = await response.json() as { error?: string }
-      if (!response.ok) throw new Error(payload.error || 'The reading status could not be changed.')
+      await updateBookStatus(book.id, status)
       setBooks((current) => current.map((item) => item.id === book.id ? { ...item, status } : item))
     } catch (caught) {
       setActionError(caught instanceof Error ? caught.message : 'The reading status could not be changed.')
@@ -117,9 +82,7 @@ function PrivateBookLibrary() {
     setBusyIds((current) => [...current, book.id])
     setActionError('')
     try {
-      const response = await fetch(`/api/v1/library/${encodeURIComponent(book.id)}`, { method: 'DELETE' })
-      const payload = await response.json() as { error?: string }
-      if (!response.ok) throw new Error(payload.error || 'The book could not be removed. Please try again.')
+      await removeLibraryBook(book.id)
       setBooks((current) => current.filter((item) => item.id !== book.id))
       window.dispatchEvent(new Event('bookhunt:library-updated'))
     } catch (caught) {
@@ -141,13 +104,7 @@ function PrivateBookLibrary() {
     setBusyIds((current) => [...current, book.id])
     setActionError('')
     try {
-      const response = await fetch(`/api/v1/library/${encodeURIComponent(book.id)}/reflection`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rating: draftRating, note: draftNote }),
-      })
-      const payload = await response.json() as { rating?: number | null; note?: string; error?: string }
-      if (!response.ok) throw new Error(payload.error || 'Your rating and note could not be saved.')
+      const payload = await updateBookReflection(book.id, draftRating, draftNote)
       setBooks((current) => current.map((item) => item.id === book.id
         ? { ...item, rating: payload.rating ?? null, note: payload.note ?? '' }
         : item))
@@ -167,6 +124,7 @@ function PrivateBookLibrary() {
           <div>
             <h1>My Library</h1>
             <p className="page-description">Books you have saved, gathered in one place.</p>
+            {publicSite && <p className="public-feature-note">Saved in this browser on this device. Your books, ratings, and notes are not synced to another browser or backed up online.</p>}
           </div>
           {!loading && !error && books.length > 0 && <p className="library-total"><strong>{books.length}</strong> {books.length === 1 ? 'book saved' : 'books saved'}</p>}
         </div>
