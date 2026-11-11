@@ -1,5 +1,6 @@
 import { useEffect, useState, type ChangeEvent, type DragEvent } from 'react'
 import OcrReview from './OcrReview'
+import { publicSearchOnly } from './deployment'
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024
 const IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
@@ -39,6 +40,19 @@ function ImagePicker({ onSelect, disabled, camera = false, label }: {
 }
 
 export default function ShelfScan() {
+  if (publicSearchOnly) {
+    return <main id="scan" className="main-content scan-page">
+      <div className="page-intro scan-intro"><p className="eyebrow">Shelf photographs · Private local storage</p><h1>Shelf Scan</h1></div>
+      <section className="scan-card scan-online-message" aria-labelledby="scan-online-heading">
+        <h2 id="scan-online-heading">Shelf Scan needs the private backend</h2>
+        <p>Online image storage and OCR are not hosted yet. Use Book Hunter with its local Node backend to upload a shelf photo and review its text.</p>
+      </section>
+    </main>
+  }
+  return <PrivateShelfScan />
+}
+
+function PrivateShelfScan() {
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState('')
   const [stored, setStored] = useState<StoredImage | null>(null)

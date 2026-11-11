@@ -51,7 +51,7 @@ The local API accepts a raw JPEG, PNG, or WebP body at `POST /api/v1/shelf-image
 
 ## OCR request (raw text only)
 
-`POST /api/v1/shelf-images/:id/ocr` loads an already stored image and runs Tesseract.js in the local Node process. A single reusable English OCR worker handles one image at a time; its language data is cached under ignored local storage. The response contains the image ID and extracted text, including an empty string when no text is found. The API does not decide which words are titles or authors and does not save any books. The frontend review panel will be designed as a separate feature increment.
+`POST /api/v1/shelf-images/:id/ocr` loads an already stored image and runs Tesseract.js in the local Node process. A single reusable English OCR worker handles one image at a time; its language data is cached under ignored local storage. The response contains the image ID and extracted text, including an empty string when no text is found. The Shelf Scan review panel shows this raw output. The API does not decide which words are titles or authors and does not save any books.
 
 ## Architecture choice
 

@@ -16,7 +16,7 @@ The Node.js backend has health, book-search, personal-library, taste-profile, lo
 
 See [docs/architecture.md](docs/architecture.md) for how a request moves through the system.
 
-For the Netlify frontend build and its current backend limitation, see [docs/deploy-netlify.md](docs/deploy-netlify.md).
+For the Netlify frontend, public catalog-search function, and current private-backend limitation, see [docs/deploy-netlify.md](docs/deploy-netlify.md).
 
 For the new local image storage API, see [docs/shelf-image-upload.md](docs/shelf-image-upload.md). The focused Shelf Scan design prompt is Part 7 of [docs/designs/stitch-prompt-sequence.md](docs/designs/stitch-prompt-sequence.md).
 

@@ -17,6 +17,8 @@ When Netlify shows **Auto Publishing Locked**, a Git push can build a new deploy
 
 ## Backend availability
 
-Netlify is configured here to publish the React frontend only. The Node.js HTTP API in `backend/` and the PostgreSQL service on a personal computer are not deployed by this setting. Vite's `/api` proxy applies to the local development server, not to the production bundle. Search, My Library, and Reading taste need a separately hosted API and database before they can work on the public site.
+Netlify builds the React frontend and a small serverless `GET /api/v1/books` function. The function reuses the Node backend's Open Library search logic, so catalog search works on the public site once its deploy is published. Netlify's function path is defined in `frontend/netlify/functions/books.mjs`; functions in `frontend/netlify/functions/` are discovered relative to the configured `frontend` base directory. Vite's `/api` proxy still applies only to local development.
+
+The PostgreSQL service and private Node HTTP API are not deployed by this setting. The public build explains that saving books, ratings, reading taste, and shelf images require a private backend. It disables those actions instead of presenting broken requests. Profile name and avatar remain browser-local. A public, persistent library needs a hosted database and owner authentication before those routes can be exposed.
 
 The backend currently assumes one private owner and has no sign-in protection. Do not expose its library and preference routes on a public host until authentication and storage access are designed and added. Keep database credentials in the host's secret environment settings, never in the repository or frontend build variables.

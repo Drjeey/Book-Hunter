@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { publicSearchOnly } from './deployment'
 
 type BookResult = {
   id: string
@@ -129,8 +130,8 @@ function BookCard({ book, isSaved, isSaving, saveMessage, onSave }: {
         <a className="book-source-link" href={book.sourceUrl} target="_blank" rel="noreferrer">
           View on Open Library <span aria-hidden="true">↗</span>
         </a>
-        <button className="library-save-button" type="button" disabled={isSaved || isSaving} onClick={onSave}>
-          {isSaved ? 'In your library' : isSaving ? 'Saving…' : 'Add to My Library'}
+        <button className="library-save-button" type="button" disabled={publicSearchOnly || isSaved || isSaving} onClick={onSave}>
+          {publicSearchOnly ? 'Saving unavailable online' : isSaved ? 'In your library' : isSaving ? 'Saving…' : 'Add to My Library'}
         </button>
         {saveMessage && <span className="library-save-message" role="status">{saveMessage}</span>}
       </div>
@@ -152,6 +153,7 @@ export default function BookSearch() {
   const [saveMessages, setSaveMessages] = useState<Record<string, string>>({})
 
   const refreshSavedBooks = useCallback(() => {
+    if (publicSearchOnly) return
     fetch('/api/v1/library')
       .then(async (response) => {
         if (!response.ok) return null
@@ -266,6 +268,7 @@ export default function BookSearch() {
       <section aria-labelledby="search-heading" className="search-section">
         <h2 id="search-heading">Search by title or author</h2>
         <p className="search-description">Search the Open Library catalog to find books for your reading list.</p>
+        {publicSearchOnly && <p className="public-feature-note">Catalog search works online. Saving books requires the private backend, which is not hosted yet.</p>}
         <form className="search-form" role="search" onSubmit={handleSubmit}>
           <label className="search-field">
             <SearchIcon />

@@ -127,3 +127,10 @@
 - **Built:** After upload, Shelf Scan sends the stored image ID to `POST /api/v1/shelf-images/:id/ocr`. It shows an indeterminate reading state, a retryable error, an empty result, or the unaltered extracted text in a scrollable viewer. The owner can copy or re-run OCR. The review component cancels its request when its image is replaced.
 - **Verification:** Frontend TypeScript and Vite production build passed. The backend OCR smoke check was completed in Increment 12a. A real shelf photo has not yet been tested on this machine.
 - **Scope:** No automatic title or author inference and no My Library changes. The local backend is still required; Netlify hosts the frontend only.
+
+## Increment 13 — public catalog search on Netlify
+
+- **Finding:** The public `bookhunte.netlify.app` URL still served an older Book Hunt build, although the latest Part 8 commit had a successful Netlify build. The deployment list showed `d087be4` as the published version and `c984493` as completed but unpublished. The Netlify dashboard was read-only in the available Chrome session, so this code cannot make that version live by itself.
+- **Built:** Added a Netlify function for `GET /api/v1/books` that reuses the existing Open Library search module. The Netlify build marks itself as a public search-only version: catalog search remains available, while library saving, shelf image upload/OCR, and database-backed reading taste show clear availability notices. Local development continues to use the private Node backend for all features.
+- **Verification:** The Netlify handler's invalid-query and normalized-result tests pass with a mocked catalog response. The Vite/TypeScript production build passes. A successful Netlify build and public function check remain to be verified after GitHub push and publication.
+- **Next:** Publish the completed Netlify deploy; then test a real catalog query on the live site. Plan hosted owner authentication and durable storage before exposing private library or shelf routes.

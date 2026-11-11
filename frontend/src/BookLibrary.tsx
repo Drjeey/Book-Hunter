@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { publicSearchOnly } from './deployment'
 
 type ReadingStatus = 'want_to_read' | 'reading' | 'read' | 'did_not_finish'
 type LibraryBook = {
@@ -38,6 +39,20 @@ function Cover({ book }: { book: LibraryBook }) {
 }
 
 export default function BookLibrary() {
+  if (publicSearchOnly) {
+    return <main id="library" className="main-content library-page">
+      <div className="page-intro library-intro"><p className="eyebrow">Private archive · Reading shelf</p><h1>My Library</h1></div>
+      <section className="library-message library-empty" aria-labelledby="library-online-heading">
+        <h2 id="library-online-heading">Your private library is not hosted yet</h2>
+        <p>Book Hunter can search the catalog online. Saving books, ratings, and notes requires the private backend and database. Your local library is available when you run the app on your computer.</p>
+        <a className="button button-primary" href="#discover">Search books</a>
+      </section>
+    </main>
+  }
+  return <PrivateBookLibrary />
+}
+
+function PrivateBookLibrary() {
   const [books, setBooks] = useState<LibraryBook[]>([])
   const [filter, setFilter] = useState<'all' | ReadingStatus>('all')
   const [loading, setLoading] = useState(true)
