@@ -1,7 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { loadReaderProfile, saveReaderProfile, type ReaderProfile } from './profileStorage'
 import TasteProfile from './TasteProfile'
-import { publicSite } from './deployment'
 
 const maxAvatarBytes = 2 * 1024 * 1024
 const allowedAvatarTypes = ['image/png', 'image/jpeg']
@@ -207,9 +206,7 @@ export default function ProfilePage() {
         </div>
       </aside>
 
-      {publicSite
-        ? <section className="public-feature-note" aria-label="Reading taste availability">Reading taste preferences require the private backend and are not hosted online yet.</section>
-        : <TasteProfile />}
+      <TasteProfile />
     </main>
   )
 }

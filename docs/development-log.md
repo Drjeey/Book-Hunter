@@ -138,5 +138,11 @@
 ## Increment 14 — browser library on the public site
 
 - **Built:** The Netlify build now keeps saved books, reading statuses, ratings, and notes in the current browser's IndexedDB. Discover's Save action and My Library use one storage client; local development continues to use the existing Node/PostgreSQL routes. The public library clearly states its browser-only storage limit.
-- **Verification:** Both public and local TypeScript/Vite builds passed. The existing Netlify search tests passed. The local browser preview could not be reached from the browser automation environment; an end-to-end save/edit/remove check remains for the successful Netlify deploy preview after GitHub push.
-- **Limit:** Browser data is specific to each origin and device. A deploy preview has different storage from the main Netlify domain. There is no account, sync, or cloud backup. Shelf Scan and database-backed reading taste still require local Node.
+- **Verification:** Both public and local TypeScript/Vite builds and the existing Netlify search tests passed. On the Netlify deploy preview, a search result was saved, its status, rating, and note were edited, and the changes remained after reload. That deploy was published and checked on the main Netlify domain.
+- **Limit:** Browser data is specific to each origin and device. A deploy preview has different storage from the main Netlify domain. There is no account, sync, or cloud backup. Shelf Scan still requires local Node.
+
+## Increment 15 — browser Reading taste on Netlify
+
+- **Built:** Reading taste now uses IndexedDB in the Netlify version and the existing PostgreSQL API in local development. Genres, themes, pace, writing style, interest levels, and traits to avoid keep the same choices and validation. The screen explains where the data is stored.
+- **Verification:** Both public and local TypeScript/Vite builds passed; the existing search tests passed. The new profile flow still needs a browser check in the Netlify deploy preview.
+- **Limit:** Netlify taste data remains only in the current browser and is separate from the local PostgreSQL profile. Shelf Scan is still local-only.

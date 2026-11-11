@@ -1,24 +1,8 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
+import { publicSite } from './deployment'
+import { loadTasteProfile, saveTasteProfile, type TasteOptions, type TasteProfileValue } from './tasteClient'
 
 type SelectionField = 'favoriteGenres' | 'favoriteThemes' | 'avoidTraits'
-type TasteProfileValue = {
-  favoriteGenres: string[]
-  favoriteThemes: string[]
-  avoidTraits: string[]
-  preferredPace: 'any' | 'slow' | 'balanced' | 'fast'
-  twistInterest: number | null
-  psychologicalDepth: number | null
-  writingStyle: 'any' | 'direct' | 'lyrical'
-  updatedAt: string | null
-}
-type TasteOptions = {
-  genres: string[]
-  themes: string[]
-  avoidTraits: string[]
-  paces: TasteProfileValue['preferredPace'][]
-  writingStyles: TasteProfileValue['writingStyle'][]
-}
-type TasteResponse = { profile: TasteProfileValue; options: TasteOptions; error?: string }
 
 const paceLabels = { any: 'No preference', slow: 'Slow and reflective', balanced: 'Balanced', fast: 'Fast-moving' }
 const writingLabels = { any: 'No preference', direct: 'Direct and clear', lyrical: 'Lyrical and descriptive' }
@@ -62,9 +46,7 @@ export default function TasteProfile() {
     setLoading(true)
     setError('')
     try {
-      const response = await fetch('/api/v1/taste-profile')
-      const payload = await response.json() as TasteResponse
-      if (!response.ok) throw new Error(payload.error || 'Your reading preferences could not be loaded.')
+      const payload = await loadTasteProfile()
       setSaved(payload.profile)
       setDraft(payload.profile)
       setOptions(payload.options)
@@ -98,13 +80,7 @@ export default function TasteProfile() {
     setError('')
     setMessage('')
     try {
-      const response = await fetch('/api/v1/taste-profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(draft),
-      })
-      const payload = await response.json() as TasteResponse
-      if (!response.ok) throw new Error(payload.error || 'Your reading preferences could not be saved.')
+      const payload = await saveTasteProfile(draft)
       setSaved(payload.profile)
       setDraft(payload.profile)
       setMessage('Your reading preferences were saved.')
@@ -187,7 +163,9 @@ export default function TasteProfile() {
             <button className="button button-text" type="button" disabled={!isDirty || saving} onClick={() => { setDraft(saved); setError(''); setMessage('') }}>Cancel</button>
             <button className="button button-primary" type="submit" disabled={!isDirty || saving}>{saving ? 'Saving…' : 'Save preferences'}</button>
           </div>
-          <p className="taste-storage-note">These preferences are saved in Book Hunter's database. This screen does not publish them.</p>
+          <p className="taste-storage-note">{publicSite
+            ? 'These preferences are saved in this browser on this device. They are not synced or backed up online.'
+            : "These preferences are saved in Book Hunter's database. This screen does not publish them."}</p>
         </form>
       )}
     </section>
