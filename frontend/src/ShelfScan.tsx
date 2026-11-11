@@ -1,4 +1,5 @@
 import { useEffect, useState, type ChangeEvent, type DragEvent } from 'react'
+import OcrReview from './OcrReview'
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024
 const IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp'])
@@ -115,24 +116,27 @@ export default function ShelfScan() {
       <div className="page-intro scan-intro">
         <p className="eyebrow">Shelf photographs · Private local storage</p>
         <h1>Shelf Scan</h1>
-        <p className="page-description">Photograph book spines clearly. For now, Book Hunter stores your image for a later identification step.</p>
+        <p className="page-description">Photograph book spines clearly, store the image, then read and review its raw text. Book identification comes later.</p>
         <p className="scan-storage-note">Images are stored on the computer running the local Book Hunter backend. Online uploads are not set up yet.</p>
       </div>
 
       <div className="scan-layout">
-        <section className="scan-card" aria-labelledby="scan-upload-heading" aria-busy={uploading}>
+        <section className={`scan-card ${phase === 'success' ? 'scan-card-stored' : ''}`} aria-labelledby="scan-upload-heading" aria-busy={uploading}>
           {phase === 'success' && stored ? (
-            <div className="scan-success" role="status">
-              <span className="scan-icon" aria-hidden="true">✓</span>
-              <h2 id="scan-upload-heading">Image stored</h2>
-              <p>Your shelf photo is ready for a future book identification step. No books were added to My Library.</p>
-              <img src={stored.url} alt="Your stored shelf photograph" className="scan-preview-image" />
-              <dl className="scan-details">
-                <div><dt>Image ID</dt><dd className="scan-id">{stored.id}</dd></div>
-                <div><dt>File type</dt><dd>{stored.contentType.replace('image/', '').toUpperCase()}</dd></div>
-                <div><dt>Size</dt><dd>{formatSize(stored.size)}</dd></div>
-              </dl>
-              <button className="button button-primary scan-main-action" type="button" onClick={reset}>Upload another image</button>
+            <div className="scan-stored-layout">
+              <div className="scan-success">
+                <span className="scan-icon" aria-hidden="true">✓</span>
+                <h2 id="scan-upload-heading">Image stored</h2>
+                <p role="status">Your shelf photo is stored on the local backend.</p>
+                <img src={stored.url} alt="Your stored shelf photograph" className="scan-preview-image" />
+                <dl className="scan-details">
+                  <div><dt>Image ID</dt><dd className="scan-id">{stored.id}</dd></div>
+                  <div><dt>File type</dt><dd>{stored.contentType.replace('image/', '').toUpperCase()}</dd></div>
+                  <div><dt>Size</dt><dd>{formatSize(stored.size)}</dd></div>
+                </dl>
+                <button className="button button-secondary scan-main-action" type="button" onClick={reset}>Upload another image</button>
+              </div>
+              <OcrReview key={stored.id} imageId={stored.id} />
             </div>
           ) : file ? (
             <div className="scan-selected">
@@ -180,8 +184,8 @@ export default function ShelfScan() {
           </section>
           <section className="scan-tip-card">
             <p className="scan-card-label">What happens next</p>
-            <h2>Stored for later</h2>
-            <p>This step saves the image only. Reading spine text and finding matching books will come later.</p>
+            <h2>Read, then review</h2>
+            <p>After an image is stored, read its raw text here. Matching that text to books will come later.</p>
           </section>
         </aside>
       </div>

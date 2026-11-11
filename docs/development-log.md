@@ -120,3 +120,10 @@
 - **Verification:** Backend syntax check and existing four upload tests passed. A real OCR smoke check on the supplied Shelf Scan screenshot returned 865 characters, including “Shelf Scan”; several smaller words were misread, showing why human review is needed.
 - **Design:** Added a focused Stitch prompt for the raw-text review addition before implementing that frontend feature.
 - **Next:** Review the generated OCR Text Review design, connect the React screen to this endpoint, and test with a real shelf photo.
+
+## Increment 12b — OCR text review frontend
+
+- **Design source:** Reviewed the [Part 8 Stitch OCR Text Review screen](https://stitch.withgoogle.com/projects/14223034854353239220). Kept its stored-image and review layout, pink and cream palette, and idle, busy, failed, empty, and raw-text states. The design's sample IDs, photographs, and OCR lines are demonstration content only; the app shows actual API values.
+- **Built:** After upload, Shelf Scan sends the stored image ID to `POST /api/v1/shelf-images/:id/ocr`. It shows an indeterminate reading state, a retryable error, an empty result, or the unaltered extracted text in a scrollable viewer. The owner can copy or re-run OCR. The review component cancels its request when its image is replaced.
+- **Verification:** Frontend TypeScript and Vite production build passed. The backend OCR smoke check was completed in Increment 12a. A real shelf photo has not yet been tested on this machine.
+- **Scope:** No automatic title or author inference and no My Library changes. The local backend is still required; Netlify hosts the frontend only.
