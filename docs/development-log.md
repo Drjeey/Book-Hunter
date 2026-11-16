@@ -144,5 +144,11 @@
 ## Increment 15 — browser Reading taste on Netlify
 
 - **Built:** Reading taste now uses IndexedDB in the Netlify version and the existing PostgreSQL API in local development. Genres, themes, pace, writing style, interest levels, and traits to avoid keep the same choices and validation. The screen explains where the data is stored.
-- **Verification:** Both public and local TypeScript/Vite builds passed; the existing search tests passed. The new profile flow still needs a browser check in the Netlify deploy preview.
-- **Limit:** Netlify taste data remains only in the current browser and is separate from the local PostgreSQL profile. Shelf Scan is still local-only.
+- **Verification:** Both public and local TypeScript/Vite builds and existing search tests passed. On the Netlify deploy preview, a genre was saved and remained selected after reload. The deploy was published and the live profile checked.
+- **Limit:** Netlify taste data remains only in the current browser and is separate from the local PostgreSQL profile.
+
+## Increment 16 — browser Shelf Scan text reading
+
+- **Built:** The Netlify Shelf Scan flow uses the established pink upload and OCR review screen with a selected image that stays in the current browser session. Tesseract.js runs in a browser worker and returns raw English text; the image and text are not uploaded or saved. The local build still stores images and runs OCR through Node.
+- **Verification:** Public Vite/TypeScript build and existing search tests passed. Browser OCR on a deployed preview still needs an end-to-end image check.
+- **Limit:** Recognition depends on image clarity and a first-use language download. It does not identify books or update My Library. [Tesseract.js documentation](https://github.com/naptha/tesseract.js/blob/master/README.md) describes its browser worker API.

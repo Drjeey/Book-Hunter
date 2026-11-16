@@ -40,19 +40,6 @@ function ImagePicker({ onSelect, disabled, camera = false, label }: {
 }
 
 export default function ShelfScan() {
-  if (publicSite) {
-    return <main id="scan" className="main-content scan-page">
-      <div className="page-intro scan-intro"><p className="eyebrow">Shelf photographs · Private local storage</p><h1>Shelf Scan</h1></div>
-      <section className="scan-card scan-online-message" aria-labelledby="scan-online-heading">
-        <h2 id="scan-online-heading">Shelf Scan needs the private backend</h2>
-        <p>Online image storage and OCR are not hosted yet. Use Book Hunter with its local Node backend to upload a shelf photo and review its text.</p>
-      </section>
-    </main>
-  }
-  return <PrivateShelfScan />
-}
-
-function PrivateShelfScan() {
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState('')
   const [stored, setStored] = useState<StoredImage | null>(null)
@@ -105,6 +92,11 @@ function PrivateShelfScan() {
     setError('')
     setPhase('uploading')
     try {
+      if (publicSite) {
+        setStored({ id: 'browser-session', contentType: file.type, size: file.size, url: previewUrl })
+        setPhase('success')
+        return
+      }
       const response = await fetch('/api/v1/shelf-images', {
         method: 'POST',
         headers: { 'Content-Type': file.type },
@@ -128,10 +120,12 @@ function PrivateShelfScan() {
   return (
     <main id="scan" className="main-content scan-page">
       <div className="page-intro scan-intro">
-        <p className="eyebrow">Shelf photographs · Private local storage</p>
+        <p className="eyebrow">Shelf photographs · {publicSite ? 'Private browser OCR' : 'Private local storage'}</p>
         <h1>Shelf Scan</h1>
-        <p className="page-description">Photograph book spines clearly, store the image, then read and review its raw text. Book identification comes later.</p>
-        <p className="scan-storage-note">Images are stored on the computer running the local Book Hunter backend. Online uploads are not set up yet.</p>
+        <p className="page-description">Photograph book spines clearly, then read and review their raw text. Book identification comes later.</p>
+        <p className="scan-storage-note">{publicSite
+          ? 'Your photo stays in this browser session. The text reader may download language files on first use. Images and extracted text are not saved online.'
+          : 'Images are stored on the computer running the local Book Hunter backend. Online uploads are not set up yet.'}</p>
       </div>
 
       <div className="scan-layout">
@@ -140,17 +134,17 @@ function PrivateShelfScan() {
             <div className="scan-stored-layout">
               <div className="scan-success">
                 <span className="scan-icon" aria-hidden="true">✓</span>
-                <h2 id="scan-upload-heading">Image stored</h2>
-                <p role="status">Your shelf photo is stored on the local backend.</p>
-                <img src={stored.url} alt="Your stored shelf photograph" className="scan-preview-image" />
+                <h2 id="scan-upload-heading">{publicSite ? 'Image ready' : 'Image stored'}</h2>
+                <p role="status">{publicSite ? 'Your shelf photo is ready for text reading in this browser.' : 'Your shelf photo is stored on the local backend.'}</p>
+                <img src={stored.url} alt={publicSite ? 'Your selected shelf photograph' : 'Your stored shelf photograph'} className="scan-preview-image" />
                 <dl className="scan-details">
-                  <div><dt>Image ID</dt><dd className="scan-id">{stored.id}</dd></div>
+                  {!publicSite && <div><dt>Image ID</dt><dd className="scan-id">{stored.id}</dd></div>}
                   <div><dt>File type</dt><dd>{stored.contentType.replace('image/', '').toUpperCase()}</dd></div>
                   <div><dt>Size</dt><dd>{formatSize(stored.size)}</dd></div>
                 </dl>
-                <button className="button button-secondary scan-main-action" type="button" onClick={reset}>Upload another image</button>
+                <button className="button button-secondary scan-main-action" type="button" onClick={reset}>Choose another image</button>
               </div>
-              <OcrReview key={stored.id} imageId={stored.id} />
+              <OcrReview key={publicSite ? previewUrl : stored.id} imageId={stored.id} imageFile={publicSite ? file : undefined} />
             </div>
           ) : file ? (
             <div className="scan-selected">
@@ -161,20 +155,20 @@ function PrivateShelfScan() {
                 <div><dt>Filename</dt><dd>{file.name}</dd></div>
                 <div><dt>File size</dt><dd>{formatSize(file.size)}</dd></div>
               </dl>
-              {uploading && <p className="scan-progress" role="status">Uploading your image… Please keep Book Hunter open.</p>}
+              {uploading && <p className="scan-progress" role="status">{publicSite ? 'Preparing your image…' : 'Uploading your image… Please keep Book Hunter open.'}</p>}
               {error && <p className="scan-error" role="alert">{error}</p>}
               <div className="scan-actions">
                 <ImagePicker label="Replace" onSelect={selectFile} disabled={uploading} />
                 <button className="button button-secondary" type="button" onClick={reset} disabled={uploading}>Remove</button>
               </div>
               <button className="button button-primary scan-main-action" type="button" onClick={upload} disabled={uploading}>
-                {uploading ? 'Uploading…' : phase === 'error' ? 'Retry upload' : 'Upload image'}
+                {publicSite ? uploading ? 'Preparing…' : 'Review image' : uploading ? 'Uploading…' : phase === 'error' ? 'Retry upload' : 'Upload image'}
               </button>
             </div>
           ) : (
             <div className="scan-ready" onDragOver={(event) => event.preventDefault()} onDrop={handleDrop}>
               <span className="scan-icon" aria-hidden="true">▣</span>
-              <h2 id="scan-upload-heading">Upload a shelf photograph</h2>
+              <h2 id="scan-upload-heading">{publicSite ? 'Choose a shelf photograph' : 'Upload a shelf photograph'}</h2>
               <p>Choose a photo or drag it here. On a phone, you can take a new photo.</p>
               {error && <p className="scan-error" role="alert">{error}</p>}
               <div className="scan-actions">
@@ -199,7 +193,7 @@ function PrivateShelfScan() {
           <section className="scan-tip-card">
             <p className="scan-card-label">What happens next</p>
             <h2>Read, then review</h2>
-            <p>After an image is stored, read its raw text here. Matching that text to books will come later.</p>
+            <p>{publicSite ? 'After choosing an image, read its raw text here.' : 'After an image is stored, read its raw text here.'} Matching that text to books will come later.</p>
           </section>
         </aside>
       </div>

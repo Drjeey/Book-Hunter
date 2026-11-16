@@ -1,2 +1,2 @@
-// The Netlify build stores its personal library in the browser; shelf OCR still needs local Node.
+// The Netlify build keeps library, preferences, and shelf OCR in the browser.
 export const publicSite = import.meta.env.VITE_PUBLIC_SITE === 'true'

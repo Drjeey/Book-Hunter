@@ -2,7 +2,23 @@ import { useEffect, useRef, useState } from 'react'
 
 type OcrPhase = 'idle' | 'reading' | 'failed' | 'empty' | 'succeeded'
 
-export default function OcrReview({ imageId }: { imageId: string }) {
+async function readInBrowser(file: File, signal: AbortSignal) {
+  const { createWorker } = await import('tesseract.js')
+  if (signal.aborted) return null
+  const worker = await createWorker('eng')
+  const stop = () => { void worker.terminate().catch(() => {}) }
+  signal.addEventListener('abort', stop, { once: true })
+  try {
+    if (signal.aborted) return null
+    const result = await worker.recognize(file)
+    return result.data.text.trim()
+  } finally {
+    signal.removeEventListener('abort', stop)
+    await worker.terminate().catch(() => {})
+  }
+}
+
+export default function OcrReview({ imageId, imageFile }: { imageId: string; imageFile?: File | null }) {
   const [phase, setPhase] = useState<OcrPhase>('idle')
   const [text, setText] = useState('')
   const [error, setError] = useState('')
@@ -19,6 +35,13 @@ export default function OcrReview({ imageId }: { imageId: string }) {
     setError('')
     setCopyMessage('')
     try {
+      if (imageFile) {
+        const result = await readInBrowser(imageFile, controller.signal)
+        if (controller.signal.aborted || result === null) return
+        setText(result)
+        setPhase(result ? 'succeeded' : 'empty')
+        return
+      }
       const response = await fetch(`/api/v1/shelf-images/${encodeURIComponent(imageId)}/ocr`, {
         method: 'POST',
         signal: controller.signal,
@@ -32,7 +55,9 @@ export default function OcrReview({ imageId }: { imageId: string }) {
       setPhase(payload.text.trim() ? 'succeeded' : 'empty')
     } catch (caught) {
       if (controller.signal.aborted) return
-      setError(caught instanceof Error ? caught.message : 'Text could not be read. Please retry.')
+      setError(imageFile
+        ? 'Text could not be read in this browser. Check your connection for the first-use language download, then retry with a clearer image.'
+        : caught instanceof Error ? caught.message : 'Text could not be read. Please retry.')
       setPhase('failed')
     } finally {
       if (request.current === controller) request.current = null
@@ -50,9 +75,9 @@ export default function OcrReview({ imageId }: { imageId: string }) {
 
   return (
     <section className="ocr-review" aria-labelledby="ocr-review-heading" aria-busy={phase === 'reading'}>
-      <p className="scan-card-label">Local character reading</p>
+      <p className="scan-card-label">{imageFile ? 'Browser character reading' : 'Local character reading'}</p>
       <h3 id="ocr-review-heading">OCR Text Review</h3>
-      <p className="ocr-intro">Read the visible letters in your stored photo, then review the raw result.</p>
+      <p className="ocr-intro">Read the visible letters in your {imageFile ? 'selected' : 'stored'} photo, then review the raw result.</p>
 
       {phase === 'idle' && <button className="button button-primary ocr-primary-action" type="button" onClick={readText}>Read text from image</button>}
 
